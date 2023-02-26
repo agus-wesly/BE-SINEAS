@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Services\Role\IRoleService;
 use App\Services\Role\RoleService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RoleServiceTest extends TestCase
@@ -21,7 +19,7 @@ class RoleServiceTest extends TestCase
         $this->roleId = 1;
     }
 
-    public function expectedRequest(){
+    public function expectedRequest() {
         return [
             'name' => 'joe',
         ];

@@ -10,7 +10,7 @@ class RoleControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    public function expectedRequest(){
+    public function expectedRequest() {
         return [
             'name' => 'joe',
         ];
@@ -20,7 +20,7 @@ class RoleControllerTest extends TestCase
         parent::setUp();
     }
 
-    public  function test_list_role_page_is_displayed()
+    public function test_list_role_page_is_displayed()
     {
         // act
         $response = $this->get('/roles');

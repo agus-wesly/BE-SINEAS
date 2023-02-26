@@ -1,6 +1,5 @@
 <?php
 
-use Intervention\Image\Gd\Commands\RotateCommand;
 
 return [
     'setting' => [
