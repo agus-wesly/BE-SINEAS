@@ -32,17 +32,18 @@ class RoleService implements IRoleService
         }
     }
 
-    public function createRole(array $data): void
+    public function createRole(array $data): bool
     {
         try {
             $this->roleRepository->create($data);
         } catch (\Exception $e) {
             report($e);
+            return 1;
             throw new \Exception($e->getMessage());
         }
     }
 
-    public function updateRole(array $data, int $roleId): void
+    public function updateRole(array $data, int $roleId): bool
     {
         try {
             $this->roleRepository->update($data, $roleId);
@@ -52,7 +53,7 @@ class RoleService implements IRoleService
         }
     }
 
-    public function deleteRole(int $roleId): void
+    public function deleteRole(int $roleId): bool
     {
         try {
             $this->roleRepository->delete($roleId);
