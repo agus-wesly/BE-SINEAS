@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Services\Role\IRoleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RoleRequest $request): RedirectResponse
     {
         $this->roleService->createRole($request->all());
         return redirect()->route('roles.index');
@@ -69,7 +70,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(RoleRequest $request, string $id): RedirectResponse
     {
         $this->roleService->updateRole($request->all(), $id);
         return redirect()->route('roles.index');

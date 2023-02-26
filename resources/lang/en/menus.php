@@ -3,16 +3,16 @@
 use Intervention\Image\Gd\Commands\RotateCommand;
 
 return [
-    'user' => [
-        'title' => 'Mitra Leu',
+    'setting' => [
+        'title' => 'Setting',
         'permission' => '#',
         'slug' => '#',
         'icon' => 'fa-solid fa-users',
         'child' => [
-            'pendaftar' => [
-                'title' => 'Pendaftar',
+            'role' => [
+                'title' => 'Roles',
                 'permission' => '#',
-                'slug' => '#',
+                'slug' => route('roles.index'),
                 'icon' => 'fa-solid fa-caret-right',
             ],
             'userTerdaftar' => [
