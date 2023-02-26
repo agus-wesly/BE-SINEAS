@@ -20,8 +20,8 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register(): void
     {
-        $this->app->singleton(IUserService::class,UserService::class);
-        $this->app->singleton(IUserRepository::class,UserRepository::class);
+        $this->app->singleton(IUserService::class, UserService::class);
+        $this->app->singleton(IUserRepository::class, UserRepository::class);
 
         $this->app->singleton(IRoleService::class, RoleService::class);
         $this->app->singleton(IRoleRepository::class, RoleRepository::class);

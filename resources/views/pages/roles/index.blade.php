@@ -39,7 +39,7 @@
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-xs btn-info"
-                                        href="#">
+                                        href="{{ route('roles.edit', $role->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                     <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
