@@ -36,6 +36,7 @@ return [
     'clear' => 'Clear',
     'downloadFile' => 'Download file',
     'edit' => 'Edit',
+    'sineashub' => 'Sineashub',
     'emailVerificationSuccess' => 'User email verified successfully',
     'entries' => 'Entries',
     'filterDate' => 'Filter by date',
