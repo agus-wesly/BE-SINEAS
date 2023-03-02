@@ -24,9 +24,10 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        $user = $this->userService->getAllUser();
+        $users = $this->userService->getAllUser();
+        $users->load('roles');
 
-        return view('pages.suppliers.index', compact('user'));
+        return view('pages.suppliers.index', compact('users'));
     }
 
     /**
