@@ -20,6 +20,12 @@ return [
                 'slug' => '#',
                 'icon' => 'fa-solid fa-caret-right',
             ],
+            'profile' => [
+                'title' => 'Profile',
+                'permission' => '#',
+                'slug' => route('profile.edit'),
+                'icon' => 'fa-solid fa-caret-right',
+            ],
         ]
     ],
 ];
