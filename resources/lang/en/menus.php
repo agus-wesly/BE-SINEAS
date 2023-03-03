@@ -17,7 +17,7 @@ return [
             'userTerdaftar' => [
                 'title' => 'User Terdaftar',
                 'permission' => '#',
-                'slug' => '#',
+                'slug' => route('user.index'),
                 'icon' => 'fa-solid fa-caret-right',
             ],
             'profile' => [
@@ -27,5 +27,17 @@ return [
                 'icon' => 'fa-solid fa-caret-right',
             ],
         ]
+    ],
+    'movie' => [
+        'title' => 'Movie',
+        'permission' => '#',
+        'slug' => route('movie.index'),
+        'icon' => 'fa-solid fa-caret-right',
+    ],
+    'genre' => [
+        'title' => 'Genre',
+        'permission' => '#',
+        'slug' => route('genre.index'),
+        'icon' => 'fa-solid fa-caret-right',
     ],
 ];
