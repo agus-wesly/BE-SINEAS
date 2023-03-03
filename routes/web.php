@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('movie', FilmController::class);
     Route::resource('genre', \App\Http\Controllers\GenreController::class);
+    Route::resource('taxes', \App\Http\Controllers\TaxController::class);
 });
 
 require __DIR__.'/auth.php';
