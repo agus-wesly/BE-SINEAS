@@ -251,6 +251,7 @@ return [
     'main_currency' => 'Main currency',
     'message' => 'Message',
     'name' => 'Name',
+    'image' => 'Image',
     'name_promo' => 'Nama Promo',
     'presentase' => 'Presentase',
     'nama' => 'Nama',
