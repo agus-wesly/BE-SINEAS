@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\FilmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,13 +29,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
-    Route::get('/user', 'index')->name('user.index');
-    Route::get('/user/{id}', 'show')->name('user.show');
-});
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user', 'index')->name('user.index');
+        Route::get('/user/{id}', 'show')->name('user.show');
+    });
 
-Route::resource('roles', \App\Http\Controllers\RoleController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('movie', FilmController::class);
+    Route::resource('genre', \App\Http\Controllers\GenreController::class);
+});
 
 require __DIR__.'/auth.php';
