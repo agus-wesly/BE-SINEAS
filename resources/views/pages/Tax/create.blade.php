@@ -6,33 +6,47 @@
     </div>
 
     <div class="card-body">
-       <form method="POST" action="{{ route("genre.store") }}" enctype="multipart/form-data">
+       <form method="POST" action="{{ route("taxes.store") }}">
            @csrf
            <div class="row">
                <div class="container col-6">
                    <div class="card">
                        <div>
-                           <h5 style="background-color: #e2e2e2;padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">{{ trans('global.create') }} {{ trans('cruds.role.title_singular') }}</h5>
+                           <h5 style="background-color: #e2e2e2;padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">{{ trans('global.create') }} Taxes</h5>
                            <div style="padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">
                                <div class="form-group">
-                                   <label for="name">Nama Genre</label>
+                                   <label for="name">Name Taxes</label>
                                    <input type="text"
                                           value="{{ old('name', '') }}"
                                           class="form-control"
                                           id="name"
                                           name="name"
-                                          aria-describedby="supplierHelp"
+                                          aria-describedby="nameHelp"
                                           placeholder="Admin"
                                           required
                                    >
                                </div>
                                <div class="form-group">
-                                   <label for="Description">Description</label>
-                                   <textarea class="form-control" name="description" id="Description" cols="10" rows="10" required>{{ old('description', '') }}</textarea>
+                                   <label for="price">{{trans('global.price')}}</label>
+                                   <input type="text"
+                                          value="{{ old('price', '') }}"
+                                          class="form-control"
+                                          id="price"
+                                          name="price"
+                                          aria-describedby="priceHelp"
+                                          placeholder="55"
+                                          required
+                                   >
                                </div>
                                <div class="form-group">
-                                   <label for="image">Description</label>
-                                   <input class="form-control" name="image" id="image" type="file" accept="image/*" required>
+                                   <label for="status">{{trans('global.status')}}</label>
+                                   <select class="form-control" name="status" id="status" required>
+                                       <option>Pilih</option>
+                                       @foreach(\App\Models\Tax::STATUS_ACTIVE as $key => $label)
+{{--                                           <option value="{{ $key }}" {{ old('status', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>--}}
+                                           <option value="{{ $key }}" @selected(old('status', '') === (int) $key)>{{ $label }}</option>
+                                       @endforeach
+                                   </select>
                                </div>
                             </div>
                        </div>
