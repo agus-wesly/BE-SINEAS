@@ -2,14 +2,14 @@
 @section('content')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-sm">
-            <a class="btn btn-success" href="{{ route('genre.create') }}">
-                {{ trans('global.add') }} Genres
+            <a class="btn btn-success" href="{{ route('taxes.create') }}">
+                {{ trans('global.add') }} Taxes
             </a>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-             Genres {{ trans('global.list') }}
+            Taxes {{ trans('global.list') }}
         </div>
 
         <div class="card-body">
@@ -24,10 +24,10 @@
                                 {{ trans('global.name') }}
                             </th>
                             <th>
-                                {{ trans('global.description') }}
+                                {{ trans('global.price') }}
                             </th>
                             <th>
-                                {{ trans('global.image') }}
+                                {{ trans('global.status') }}
                             </th>
                             <th class="text-center">
                                 Aksi
@@ -35,28 +35,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($genres as $key => $genre)
-                            <tr data-entry-id="{{ $genre->id }}">
+                        @foreach ($taxes as $key => $tax)
+                            <tr data-entry-id="{{ $tax->id }}">
                                 <td>
 
                                 </td>
                                 <td>
-                                    {{ $genre?->name }}
+                                    {{ $tax?->name }}
                                 </td>
                                 <td>
-                                    {{ $genre?->description }}
+                                    {{ $tax?->price }}
                                 </td>
-                                <td class="text-center">
-                                        <a href="{{ asset('storage/'.$genre->image) }}" target="_blank" style="display: inline-block">
-                                            <img class="img" src="{{ asset('storage/'.$genre->image) }}" width="200px" alt="">
-                                        </a>
+                                <td>
+                                    {{ \App\Models\Tax::STATUS_ACTIVE[$tax?->status] }}
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-xs btn-info"
-                                        href="{{ route('genre.edit', $genre->id) }}">
+                                        href="{{ route('taxes.edit', $tax?->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                    <form action="{{ route('genre.destroy', $genre->id) }}" method="POST"
+                                    <form action="{{ route('taxes.destroy', $tax?->id) }}" method="POST"
                                         onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                         style="display: inline-block;" class="ml-2">
                                         <input type="hidden" name="_method" value="DELETE">
