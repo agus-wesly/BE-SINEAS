@@ -1,0 +1,55 @@
+@extends('layouts.admin')
+@section('content')
+
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.sineashub') }}
+    </div>
+
+    <div class="card-body">
+        <form method="POST" action="{{ route("genre.update", [$genre->id]) }}" enctype="multipart/form-data">
+            @method('PUT')
+            @csrf
+            <div class="container col-6">
+                <div class="card">
+                    <div>
+                        <h5 style="background-color: #e2e2e2;padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">{{ trans('global.edit') }} Genre</h5>
+                        <div style="padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">
+                            <div class="form-group">
+                                <label for="name">Nama Genre</label>
+                                <input type="text"
+                                       value="{{ old('name', $genre->name) }}"
+                                       class="form-control"
+                                       id="name"
+                                       name="name"
+                                       aria-describedby="supplierHelp"
+                                       placeholder="Admin"
+                                       required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">Description</label>
+                                <textarea class="form-control" name="description" id="Description" cols="10" rows="10" required>{{ old('description', $genre->description) }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input class="form-control"
+                                       name="image"
+                                       id="image"
+                                       type="file"
+                                       accept="image/*"
+                                       value="{{ asset('storage/'.$genre->image) }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 ml-3">
+                        <button style="width: 130px" type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
