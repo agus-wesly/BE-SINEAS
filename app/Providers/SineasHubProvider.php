@@ -8,6 +8,8 @@ use App\Repository\genre\GenreRepository;
 use App\Repository\genre\IGenreRepository;
 use App\Repository\Role\IRoleRepository;
 use App\Repository\Role\RoleRepository;
+use App\Repository\Tax\ITaxRepository;
+use App\Repository\Tax\TaxRepository;
 use App\Repository\User\IUserRepository;
 use App\Repository\User\UserRepository;
 use App\Services\Film\FilmService;
@@ -16,6 +18,8 @@ use App\Services\genre\GenreService;
 use App\Services\genre\IGenreService;
 use App\Services\Role\IRoleService;
 use App\Services\Role\RoleService;
+use App\Services\Tax\ITaxService;
+use App\Services\Tax\TaxService;
 use App\Services\User\IUserService;
 use App\Services\User\UserService;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -39,6 +43,9 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(IGenreService::class, GenreService::class);
         $this->app->singleton(IGenreRepository::class, GenreRepository::class);
+
+        $this->app->singleton(ITaxService::class, TaxService::class);
+        $this->app->singleton(ITaxRepository::class, TaxRepository::class);
     }
 
     public function provides()
@@ -52,6 +59,8 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             IFilmRepository::class,
             IGenreService::class,
             IGenreRepository::class,
+            ITaxService::class,
+            ITaxRepository::class
         ];
     }
 
