@@ -27,7 +27,7 @@ class UserController extends Controller
         $users = $this->userService->getAllUser();
         $users->load('roles');
 
-        return view('pages.suppliers.index', compact('users'));
+        return view('pages.users.index', compact('users'));
     }
 
     /**
