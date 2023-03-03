@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Repository\Film\FilmRepository;
+use App\Repository\Film\IFilmRepository;
+use App\Repository\genre\GenreRepository;
+use App\Repository\genre\IGenreRepository;
 use App\Repository\Role\IRoleRepository;
 use App\Repository\Role\RoleRepository;
 use App\Repository\User\IUserRepository;
 use App\Repository\User\UserRepository;
+use App\Services\Film\FilmService;
+use App\Services\Film\IFilmService;
+use App\Services\genre\GenreService;
+use App\Services\genre\IGenreService;
 use App\Services\Role\IRoleService;
 use App\Services\Role\RoleService;
 use App\Services\User\IUserService;
@@ -25,6 +33,12 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(IRoleService::class, RoleService::class);
         $this->app->singleton(IRoleRepository::class, RoleRepository::class);
+
+        $this->app->singleton(IFilmService::class, FilmService::class);
+        $this->app->singleton(IFilmRepository::class, FilmRepository::class);
+
+        $this->app->singleton(IGenreService::class, GenreService::class);
+        $this->app->singleton(IGenreRepository::class, GenreRepository::class);
     }
 
     public function provides()
@@ -33,7 +47,11 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             IUserService::class,
             IUserRepository::class,
             IRoleService::class,
-            IRoleRepository::class
+            IRoleRepository::class,
+            IFilmService::class,
+            IFilmRepository::class,
+            IGenreService::class,
+            IGenreRepository::class,
         ];
     }
 
