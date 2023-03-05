@@ -6,18 +6,18 @@ return [
         'title' => 'Setting',
         'permission' => '#',
         'slug' => '#',
-        'icon' => 'fa-solid fa-users',
+        'icon' => 'fa-solid fa-gear',
         'child' => [
+            'taxes' => [
+                'title' => 'Pajak',
+                'permission' => '#',
+                'slug' => route('taxes.index'),
+                'icon' => 'fa-solid fa-caret-right',
+            ],
             'role' => [
                 'title' => 'Roles',
                 'permission' => '#',
                 'slug' => route('roles.index'),
-                'icon' => 'fa-solid fa-caret-right',
-            ],
-            'userTerdaftar' => [
-                'title' => 'User Terdaftar',
-                'permission' => '#',
-                'slug' => route('user.index'),
                 'icon' => 'fa-solid fa-caret-right',
             ],
             'profile' => [
@@ -32,12 +32,18 @@ return [
         'title' => 'Movie',
         'permission' => '#',
         'slug' => route('movie.index'),
-        'icon' => 'fa-solid fa-caret-right',
+        'icon' => 'fa-solid fa-film',
     ],
     'genre' => [
         'title' => 'Genre',
         'permission' => '#',
         'slug' => route('genre.index'),
-        'icon' => 'fa-solid fa-caret-right',
+        'icon' => 'fa-solid fa-list-alt',
+    ],
+    'userMaster' => [
+        'title' => 'User Master',
+        'permission' => '#',
+        'slug' => route('user.index'),
+        'icon' => 'fa-solid fa-users',
     ],
 ];

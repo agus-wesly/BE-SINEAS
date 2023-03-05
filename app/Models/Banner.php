@@ -6,10 +6,9 @@ use App\Traits\Accessor\StatusSelected;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tax extends Model
+class Banner extends Model
 {
     use HasFactory;
     use StatusSelected;
     protected $guarded = ['id'];
-
 }

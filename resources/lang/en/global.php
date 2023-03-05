@@ -252,6 +252,8 @@ return [
     'message' => 'Message',
     'name' => 'Name',
     'image' => 'Image',
+    'url' => 'Url Link',
+    'expired_date' => 'Expired Date',
     'name_promo' => 'Nama Promo',
     'presentase' => 'Presentase',
     'nama' => 'Nama',

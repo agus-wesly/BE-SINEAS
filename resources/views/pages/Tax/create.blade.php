@@ -43,7 +43,6 @@
                                    <select class="form-control" name="status" id="status" required>
                                        <option>Pilih</option>
                                        @foreach(\App\Models\Tax::STATUS_ACTIVE as $key => $label)
-{{--                                           <option value="{{ $key }}" {{ old('status', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>--}}
                                            <option value="{{ $key }}" @selected(old('status', '') === (int) $key)>{{ $label }}</option>
                                        @endforeach
                                    </select>
