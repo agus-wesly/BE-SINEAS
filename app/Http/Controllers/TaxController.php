@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaxasRequest;
 use App\Services\Tax\ITaxService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class TaxController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(TaxasRequest $request): RedirectResponse
     {
         $this->taxService->addTax($request->all());
         return redirect()->route('taxes.index');
@@ -61,7 +62,7 @@ class TaxController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(TaxasRequest $request, string $id): RedirectResponse
     {
         $this->taxService->editTax($request->all(), $id);
         return redirect()->route('taxes.index');
