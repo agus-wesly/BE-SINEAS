@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('movie', FilmController::class);
     Route::resource('genre', \App\Http\Controllers\GenreController::class);
     Route::resource('taxes', \App\Http\Controllers\TaxController::class);
+    Route::resource('banners', \App\Http\Controllers\BannerController::class);
 });
 
 require __DIR__.'/auth.php';
