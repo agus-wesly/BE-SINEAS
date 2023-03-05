@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TaxasRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class TaxasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string','unique:taxes,name', 'max:255'],
+            'name' => ['required', 'string', Rule::unique('taxes', 'name')->ignore($this->tax)],
             'price' => ['required', 'integer', 'min:0'],
             'status' => ['required', 'boolean'],
         ];
