@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Accessor\StatusSelected;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tax extends Model
 {
     use HasFactory;
+    use StatusSelected;
     protected $guarded = ['id'];
-    public CONST STATUS_ACTIVE = [
-        1 => 'Active',
-        2 => 'nonactive'
-    ];
+
 }
