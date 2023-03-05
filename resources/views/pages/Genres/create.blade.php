@@ -31,7 +31,7 @@
                                    <textarea class="form-control" name="description" id="Description" cols="10" rows="10" required>{{ old('description', '') }}</textarea>
                                </div>
                                <div class="form-group">
-                                   <label for="image">Description</label>
+                                   <label for="image">Image</label>
                                    <input class="form-control" name="image" id="image" type="file" accept="image/*" required>
                                </div>
                             </div>
