@@ -2,14 +2,14 @@
 @section('content')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-sm">
-            <a class="btn btn-success" href="{{ route('roles.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
+            <a class="btn btn-success" href="{{ route('banners.create') }}">
+                {{ trans('global.add') }} {{ trans('cruds.banner.title') }}
             </a>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.role.title_singular') }} {{ trans('global.list') }}
+            {{ trans('cruds.banner.title_singular') }} {{ trans('global.list') }}
         </div>
 
         <div class="card-body">
@@ -23,26 +23,56 @@
                             <th>
                                 {{ trans('global.name') }}
                             </th>
+                            <th>
+                                {{ trans('global.description') }}
+                            </th>
+                            <th>
+                                {{ trans('global.image') }}
+                            </th>
+                            <th>
+                                {{ trans('global.url') }}
+                            </th>
+                            <th>
+                                {{ trans('global.expired_date') }}
+                            </th>
+                            <th>
+                                {{ trans('global.status') }}
+                            </th>
                             <th class="text-center">
                                 Aksi
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($roles as $key => $role)
-                            <tr data-entry-id="{{ $role->id }}">
+                        @foreach ($banners as $key => $banner)
+                            <tr data-entry-id="{{ $banner->id }}">
                                 <td>
 
                                 </td>
                                 <td>
-                                    {{ $role?->name }}
+                                    {{ $banner?->title }}
+                                </td>
+                                <td>
+                                    {{ \Illuminate\Support\Str::limit($banner?->description, 40) }}
+                                </td>
+                                <td>
+                                    {{ $banner?->image }}
+                                </td>
+                                <td>
+                                    {{ $banner?->url_link }}
+                                </td>
+                                <td>
+                                    {{ $banner?->expired_date}}
+                                </td>
+                                <td>
+                                    {{ \App\Models\Banner::STATUS_ACTIVE[$banner->status] ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-xs btn-info"
-                                        href="{{ route('roles.edit', $role->id) }}">
+                                        href="{{ route('banners.edit', $banner->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                    <form action="{{ route('banners.destroy', $banner->id) }}" method="POST"
                                         onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                         style="display: inline-block;" class="ml-2">
                                         <input type="hidden" name="_method" value="DELETE">
