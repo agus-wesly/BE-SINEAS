@@ -2,7 +2,10 @@
 
 namespace App\Traits\Accessor;
 
-class StatusSelected
+trait StatusSelected
 {
-
+    public CONST STATUS_ACTIVE = [
+        1 => 'Active',
+        2 => 'nonactive'
+    ];
 }
