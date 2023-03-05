@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repository\Banner\BannerReoisitory;
+use App\Repository\Banner\IBannerRepository;
 use App\Repository\Film\FilmRepository;
 use App\Repository\Film\IFilmRepository;
 use App\Repository\genre\GenreRepository;
@@ -12,6 +14,8 @@ use App\Repository\Tax\ITaxRepository;
 use App\Repository\Tax\TaxRepository;
 use App\Repository\User\IUserRepository;
 use App\Repository\User\UserRepository;
+use App\Services\Banner\BannerService;
+use App\Services\Banner\IBannerService;
 use App\Services\Film\FilmService;
 use App\Services\Film\IFilmService;
 use App\Services\genre\GenreService;
@@ -46,6 +50,9 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(ITaxService::class, TaxService::class);
         $this->app->singleton(ITaxRepository::class, TaxRepository::class);
+
+        $this->app->singleton(IBannerService::class, BannerService::class);
+        $this->app->singleton(IBannerRepository::class, BannerReoisitory::class);
     }
 
     public function provides()
@@ -60,7 +67,9 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             IGenreService::class,
             IGenreRepository::class,
             ITaxService::class,
-            ITaxRepository::class
+            ITaxRepository::class,
+            IBannerService::class,
+            IBannerRepository::class,
         ];
     }
 
