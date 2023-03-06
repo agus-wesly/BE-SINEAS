@@ -13,7 +13,8 @@
             <div class="container col-6">
                 <div class="card">
                     <div>
-                        <h5 style="background-color: #e2e2e2;padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">{{ trans('global.edit') }} Genre</h5>
+                        <h5 style="background-color: #e2e2e2;padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">{{ trans('global.edit') }}
+                            {{trans('cruds.tax.title')}}</h5>
                         <div style="padding-left: 12px;padding-top: 8px;padding-bottom: 8px;padding-right: 12px">
                             <div class="form-group">
                                 <label for="name">Name Taxes</label>
