@@ -15,4 +15,9 @@ class Film extends Model
     {
         return $this->hasMany(FilmGallery::class);
     }
+
+    public function actors()
+    {
+        return $this->hasMany(ActorFilm::class);
+    }
 }
