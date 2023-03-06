@@ -192,6 +192,33 @@
                                        @endif
                                    </div>
                                </div>
+                               <div class="row">
+                                   <div class="form-group col">
+                                       <label class="required" for="information">Information</label>
+                                       <div>
+                                           <button type="button" id="add-information-form" class="btn btn-primary">Add</button>
+                                       </div>
+                                       <table id="information-form">
+                                           <thead>
+                                           <tr>
+                                               <th>Name</th>
+                                               <th>Value</th>
+                                           </tr>
+                                           </thead>
+                                           <tbody>
+                                           <tr>
+                                               <td><input type="text" name="information[1][name]" class="form-control"></td>
+                                               <td><input type="text" name="information[1][value]" class="form-control"></td>
+                                               <td>
+                                                   <button type="button" class="btn btn-danger" onclick="this.parentNode.parentNode.remove(); return refreshIndex()">
+                                                       Delete
+                                                   </button>
+                                               </td>
+                                           </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </div>
 {{--                               <div class="row">--}}
 {{--                                   <div class="form-group col">--}}
 {{--                                       <label for="thumbnail">{{ trans('cruds.category.fields.thumbnail') }}</label>--}}
@@ -217,6 +244,38 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#genre_id').select2({
+                tags: true
+            })
+            $('#add-information-form').click(function(e) {
+                const count = $('#information-form tbody tr').length;
+                $('#information-form tbody').append(
+                    `<tr>
+                        <td><input type="text" name="information[${count + 1}][name]" class="form-control"></td>
+                        <td><input type="text" name="information[${count + 1}][value]" class="form-control"></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="this.parentNode.parentNode.remove(); return refreshIndex()">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>`
+                );
+            })
+        })
+
+        function refreshIndex () {
+            $('#information-form tbody tr').each(function(index) {
+                const inputs = $(this).find('input')
+                $(inputs[0]).attr('name', `information[${index + 1}][name]`)
+                $(inputs[1]).attr('name', `information[${index + 1}][value]`)
+            })
+        }
+    </script>
+@endpush
 
 {{--@section('scripts')--}}
 {{--    <script>--}}
