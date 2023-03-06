@@ -27,7 +27,12 @@ class FilmRepository implements IFilmRepository
 
     public function createFilm(array $data)
     {
-        $this->film->create($data);
+       return $this->film->create($data);
+    }
+
+    public function createActorFilm(Film $film, string $name)
+    {
+        $film->actors()->create(['name' => $name]);
     }
 
     public function createImageFilm(array $data)

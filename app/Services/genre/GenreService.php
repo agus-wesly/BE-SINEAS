@@ -4,12 +4,11 @@ namespace App\Services\genre;
 
 use App\Repository\genre\IGenreRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class GenreService implements \App\services\genre\IGenreService
 {
-    private  IGenreRepository $genreRepo;
+    private IGenreRepository $genreRepo;
 
     public function __construct(IGenreRepository $genreRepo)
     {
