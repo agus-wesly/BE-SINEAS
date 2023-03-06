@@ -35,9 +35,17 @@ class FilmService implements IFilmService
     public function addFilm(array $data): bool|null
     {
         try {
-            return $this->filmRepository->createFilm($data);
+            \DB::beginTransaction();
+            $film = $this->filmRepository->createFilm($data);
+            if (isset($data['actor'])) {
+                array_map(function ($actor) use ($film) {
+                    $this->filmRepository->createActorFilm($film, $actor);
+                }, $data['actor']);
+            }
+            \DB::commit();
         } catch (\Exception $e) {
             report($e);
+            \DB::rollBack();
             throw ValidationException::withMessages([
                 'error' => 'server error'
             ]);
