@@ -44,6 +44,7 @@ class FilmController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        dd($request->all());
         $this->filmService->addFilm($request->all());
         return redirect()->route('movie.index');
     }
