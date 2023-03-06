@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaxasRequest;
 use App\Services\Tax\ITaxService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TaxController extends Controller
