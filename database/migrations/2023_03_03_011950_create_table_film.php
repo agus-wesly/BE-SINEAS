@@ -16,9 +16,6 @@ return new class extends Migration {
             $table->string('desc');
             $table->string('url_film');
             $table->string('url_trailer');
-            $table->string('penulis');
-            $table->string('sutradara');
-            $table->string('produser');
             $table->date('date');
             $table->string('duration');
             $table->timestamps();
