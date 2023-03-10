@@ -16,9 +16,24 @@ class UserRepository implements IUserRepository
         $this->user = $user;
     }
 
-
     public function allUser()
     {
         return $this->user->all();
+    }
+
+    public function getUserById(string $id)
+    {
+        return $this->user->findOrFail($id);
+    }
+
+    public function updateUser(array $data, User $user)
+    {
+        $user->fill($data);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
     }
 }

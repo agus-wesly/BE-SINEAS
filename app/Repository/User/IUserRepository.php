@@ -2,7 +2,11 @@
 
 namespace App\Repository\User;
 
+use App\Models\User;
+
 interface IUserRepository
 {
     public function allUser();
+    public function getUserById(string $id);
+    public function updateUser(array $data, User $user);
 }
