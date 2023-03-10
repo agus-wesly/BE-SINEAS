@@ -21,4 +21,10 @@ class UserService implements IUserService
     {
         return $this->userRepository->allUser();
     }
+
+    public function editUser(array $request, string $id): void
+    {
+        $user = $this->userRepository->getUserById($id);
+        $this->userRepository->updateUser($request, $user);
+    }
 }

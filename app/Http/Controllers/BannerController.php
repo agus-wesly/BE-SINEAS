@@ -42,7 +42,7 @@ class BannerController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->bannerService->addBanner($request->all());
+        $this->bannerService->addBanner($request);
         return redirect()->route('banners.index');
     }
 

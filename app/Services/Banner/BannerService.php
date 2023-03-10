@@ -3,9 +3,12 @@
 namespace App\Services\Banner;
 
 use App\Repository\Banner\IBannerRepository;
+use App\Traits\ImageTrait;
+use Illuminate\Http\Request;
 
 class BannerService implements IBannerService
 {
+    use ImageTrait;
     private IBannerRepository $bannerRepo;
 
     /**
@@ -26,8 +29,11 @@ class BannerService implements IBannerService
         return $this->bannerRepo->getById($id);
     }
 
-    public function addBanner(array $data): void
+    public function addBanner(Request $request): void
     {
+        $data = $request->all();
+        $data['image'] =  $this->uploadImage('image', $request, 'banner');
+
         try {
             $this->bannerRepo->create($data);
         } catch (\Exception $e) {

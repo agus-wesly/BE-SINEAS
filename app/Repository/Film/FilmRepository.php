@@ -22,13 +22,36 @@ class FilmRepository implements IFilmRepository
 
     public function getFilmById(int $id)
     {
-        return $this->film->findOrFail($id);
+        return $this->film->with(['information','actors'])->findOrFail($id);
     }
 
     public function createFilm(array $data)
     {
        return $this->film->create($data);
     }
+
+    public function createFilmDetail(Film $film, array $data)
+    {
+        $film->information()->createMany($data);
+    }
+
+    public function addFilmGenre(Film $film, array $data)
+    {
+        $film->filmGenre()->attach($data);
+    }
+
+    public function addImageFilm(Film $film, array $data)
+    {
+        array_map(static function ($image) use ($film, $data, &$index) {
+            $index = $index ?? 0;
+            $film->gallery()->create([
+                'images' => $image,
+                'type' => $data['type'][$index]
+            ]);
+            $index++;
+        }, $data['name']);
+    }
+
 
     public function createActorFilm(Film $film, string $name)
     {

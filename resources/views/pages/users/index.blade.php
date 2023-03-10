@@ -75,13 +75,8 @@
                                     {{ $user->roles->name ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                        <a class="btn btn-xs btn-primary mr-2"
-                                            href="#">
-                                            {{ trans('global.view') }}
-                                        </a>
-
                                         <a class="btn btn-xs btn-info"
-                                            href="#">
+                                            href="{{ route('user.edit', $user->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                 </td>

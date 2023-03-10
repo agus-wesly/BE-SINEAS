@@ -9,6 +9,9 @@ interface IFilmRepository
     public function getAllFilm();
     public function getFilmById(int $id);
     public function createFilm(array $data);
+    public function createFilmDetail(Film $film, array $data);
+    public function addFilmGenre(Film $film, array $data);
+    public function addImageFilm(Film $film, array $data);
     public function createActorFilm(Film $film, string $name);
     public function createImageFilm(array $data);
     public function updateFilm(array $data, Film $film);
