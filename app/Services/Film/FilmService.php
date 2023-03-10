@@ -2,8 +2,10 @@
 
 namespace App\Services\Film;
 
+use App\Enums\TypeFilm;
 use App\Models\Film;
 use App\Repository\Film\IFilmRepository;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class FilmService implements IFilmService
@@ -31,12 +33,45 @@ class FilmService implements IFilmService
             ]);
         }
     }
-
-    public function addFilm(array $data): bool|null
+    private function addImage(array $data, Request $request): array
     {
+        $data['images']['name'] = [];
+        $data['images']['type'] = [];
+
+        if ($request->hasFile('thumbnail')) {
+            $data['images']['name'][] = $request->file('thumbnail')->store(
+                'assert/film/thumbnail',
+                'public'
+            );
+
+            $data['images']['type'][] = TypeFilm::Thumbnail->value;
+        }
+
+        if ($request->hasFile('background')) {
+            $data['images']['name'][] = $request->file('background')->store(
+                'assert/film/background',
+                'public'
+            );
+            $data['images']['type'][] = TypeFilm::Background->value;
+        }
+
+        return $data;
+    }
+
+    public function addFilm(Request $request)
+    {
+        $data = $request->all();
+        $data = $this->addImage($data,$request);
         try {
             \DB::beginTransaction();
             $film = $this->filmRepository->createFilm($data);
+            $this->filmRepository->createFilmDetail($film, $data['information']);
+            $this->filmRepository->addFilmGenre($film, $data['genre_id']);
+
+            if (isset($data['images'])) {
+                $this->filmRepository->addImageFilm($film, $data['images']);
+            }
+
             if (isset($data['actor'])) {
                 array_map(function ($actor) use ($film) {
                     $this->filmRepository->createActorFilm($film, $actor);
