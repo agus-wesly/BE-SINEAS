@@ -36,15 +36,6 @@
                                 {{ trans('cruds.film.fields.url_film') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.author') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.film.fields.sutradara') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.film.fields.produser') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.film.fields.film_date') }}
                             </th>
                             <th class="text-center">
@@ -65,7 +56,7 @@
                                     {{ $film->duration ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $film->desc ?? '' }}
+                                    {{ Str::limit($film->desc, 40) ?? '' }}
                                 </td>
                                 <td>
                                     {{ $film->url_trailer ?? '' }}
@@ -74,20 +65,11 @@
                                     {{ $film->url_film ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $film->penulis ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->sutradara ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->produser ?? '' }}
-                                </td>
-                                <td>
                                     {{ $film->date ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-center">
                                         <a class="btn btn-xs btn-primary mr-2"
-                                            href="#">
+                                            href="{{ route('movie.show', $film->id) }}">
                                             {{ trans('global.view') }}
                                         </a>
 
