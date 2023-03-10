@@ -14,6 +14,12 @@ return [
                 'slug' => route('taxes.index'),
                 'icon' => 'fa-solid fa-caret-right',
             ],
+            'filmSellingPrice' => [
+                'title' => 'Film Selling Price',
+                'permission' => '#',
+                'slug' => route('film-selling-price.index'),
+                'icon' => 'fa-solid fa-caret-right',
+            ],
             'role' => [
                 'title' => 'Roles',
                 'permission' => '#',
@@ -39,6 +45,24 @@ return [
         'permission' => '#',
         'slug' => route('genre.index'),
         'icon' => 'fa-solid fa-list-alt',
+    ],
+    'banner' => [
+        'title' => 'Banners',
+        'permission' => '#',
+        'slug' => route('banners.index'),
+        'icon' => 'fa-solid fa-font-awesome',
+    ],
+    'filmSelling' => [
+        'title' => 'Film Selling',
+        'permission' => '#',
+        'slug' => route('film-selling.index'),
+        'icon' => 'fa-solid fa-money-bill',
+    ],
+    'transaction' => [
+        'title' => 'Transaction',
+        'permission' => '#',
+        'slug' => route('film-selling.index'),
+        'icon' => 'fa-solid fa-clock-rotate-left',
     ],
     'userMaster' => [
         'title' => 'User Master',
