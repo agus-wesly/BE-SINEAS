@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilmRequest;
 use App\Models\Genre;
 use App\Services\Film\IFilmService;
 use Illuminate\Http\RedirectResponse;
@@ -42,10 +43,9 @@ class FilmController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(FilmRequest $request): RedirectResponse
     {
-        dd($request->all());
-        $this->filmService->addFilm($request->all());
+        $this->filmService->addFilm($request);
         return redirect()->route('movie.index');
     }
 
@@ -54,7 +54,8 @@ class FilmController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $film =$this->filmService->getFilmById($id);
+        return view('pages.film.show', compact('film'));
     }
 
     /**
