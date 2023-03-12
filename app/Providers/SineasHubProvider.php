@@ -30,6 +30,8 @@ use App\Services\genre\GenreService;
 use App\Services\genre\IGenreService;
 use App\Services\Role\IRoleService;
 use App\Services\Role\RoleService;
+use App\Services\Socialite\ISocialiteService;
+use App\Services\Socialite\SocialiteService;
 use App\Services\Tax\ITaxService;
 use App\Services\Tax\TaxService;
 use App\Services\User\IUserService;
@@ -67,6 +69,8 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(IFilmSellingService::class, FilmSellingService::class);
         $this->app->singleton(IFIlmSellingRepository::class, FilmSellingRepository::class);
+
+        $this->app->singleton(ISocialiteService::class, SocialiteService::class);
     }
 
     public function provides(): array
@@ -88,6 +92,7 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             IFilmSellingPriceRepository::class,
             IFilmSellingService::class,
             IFIlmSellingRepository::class,
+            ISocialiteService::class,
         ];
     }
 
