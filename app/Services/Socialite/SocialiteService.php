@@ -36,16 +36,19 @@ class SocialiteService implements ISocialiteService
     $existingUser = $this->userService->getUserByEmail($user->email);
     if (!$existingUser)
     {
-      $this->userService->addUser($user);
+        $data['email'] = $user->email;
+        $data['name'] = $user->name;
+        $data['telp'] = "11111111";
+        $data['password'] = \Hash::make('12345678');
+        $existingUser = $this->userService->addUser($data);
     }
+
 
     $token = $existingUser->createToken('token', ['auth'])->plainTextToken;
 
     return [
         "token" => $token,
-        "user" => $user
+        "user" => $existingUser
       ];
   }
-
-
 }
