@@ -6,6 +6,7 @@ use App\Http\Controllers\FilmSellingPriceController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaxController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('banners', BannerController::class);
     Route::resource('film-selling-price', FilmSellingPriceController::class);
     Route::resource('film-selling', FilmSellingController::class);
+    Route::resource('transaction', TransactionController::class);
 });
 
 require __DIR__.'/auth.php';
