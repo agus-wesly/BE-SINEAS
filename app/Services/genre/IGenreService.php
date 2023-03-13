@@ -2,7 +2,6 @@
 
 namespace App\Services\genre;
 
-
 use Illuminate\Http\Request;
 
 interface IGenreService

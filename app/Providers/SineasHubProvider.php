@@ -6,6 +6,10 @@ use App\Repository\Banner\BannerReoisitory;
 use App\Repository\Banner\IBannerRepository;
 use App\Repository\Film\FilmRepository;
 use App\Repository\Film\IFilmRepository;
+use App\Repository\FilmSelling\FilmSellingRepository;
+use App\Repository\FilmSelling\IFIlmSellingRepository;
+use App\Repository\FilmSellingPrice\FilmSellingPriceRepository;
+use App\Repository\FilmSellingPrice\IFilmSellingPriceRepository;
 use App\Repository\genre\GenreRepository;
 use App\Repository\genre\IGenreRepository;
 use App\Repository\Role\IRoleRepository;
@@ -18,10 +22,16 @@ use App\Services\Banner\BannerService;
 use App\Services\Banner\IBannerService;
 use App\Services\Film\FilmService;
 use App\Services\Film\IFilmService;
+use App\Services\FilmSelling\FilmSellingService;
+use App\Services\FilmSelling\IFilmSellingService;
+use App\Services\FilmSellingPrice\FilmSellingPriceService;
+use App\Services\FilmSellingPrice\IFilmSellingPriceService;
 use App\Services\genre\GenreService;
 use App\Services\genre\IGenreService;
 use App\Services\Role\IRoleService;
 use App\Services\Role\RoleService;
+use App\Services\Socialite\ISocialiteService;
+use App\Services\Socialite\SocialiteService;
 use App\Services\Tax\ITaxService;
 use App\Services\Tax\TaxService;
 use App\Services\User\IUserService;
@@ -53,9 +63,17 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(IBannerService::class, BannerService::class);
         $this->app->singleton(IBannerRepository::class, BannerReoisitory::class);
+
+        $this->app->singleton(IFilmSellingPriceRepository::class, FilmSellingPriceRepository::class);
+        $this->app->singleton(IFilmSellingPriceService::class, FilmSellingPriceService::class);
+
+        $this->app->singleton(IFilmSellingService::class, FilmSellingService::class);
+        $this->app->singleton(IFIlmSellingRepository::class, FilmSellingRepository::class);
+
+        $this->app->singleton(ISocialiteService::class, SocialiteService::class);
     }
 
-    public function provides()
+    public function provides(): array
     {
         return [
             IUserService::class,
@@ -70,6 +88,11 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             ITaxRepository::class,
             IBannerService::class,
             IBannerRepository::class,
+            IFilmSellingPriceService::class,
+            IFilmSellingPriceRepository::class,
+            IFilmSellingService::class,
+            IFIlmSellingRepository::class,
+            ISocialiteService::class,
         ];
     }
 

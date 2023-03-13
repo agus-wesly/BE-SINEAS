@@ -16,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'editor' => env('APP_EDITOR', 'phpstorm'),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,6 +186,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...

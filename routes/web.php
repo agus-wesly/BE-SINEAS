@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\FilmSellingController;
+use App\Http\Controllers\FilmSellingPriceController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaxController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -17,9 +23,7 @@ use App\Http\Controllers\FilmController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::Redirect('/', '/dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,14 +36,19 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(UserController::class)->group(function () {
         Route::get('/user', 'index')->name('user.index');
+        Route::get('/user/{user}/edit', 'edit')->name('user.edit');
+        Route::patch('/user/{id}', 'update')->name('user.update');
         Route::get('/user/{id}', 'show')->name('user.show');
     });
 
     Route::resource('roles', RoleController::class);
     Route::resource('movie', FilmController::class);
-    Route::resource('genre', \App\Http\Controllers\GenreController::class);
-    Route::resource('taxes', \App\Http\Controllers\TaxController::class);
-    Route::resource('banners', \App\Http\Controllers\BannerController::class);
+    Route::resource('genre', GenreController::class);
+    Route::resource('taxes', TaxController::class);
+    Route::resource('banners', BannerController::class);
+    Route::resource('film-selling-price', FilmSellingPriceController::class);
+    Route::resource('film-selling', FilmSellingController::class);
+    Route::resource('transaction', TransactionController::class);
 });
 
 require __DIR__.'/auth.php';
