@@ -21,6 +21,12 @@ class UserRepository implements IUserRepository
         return $this->user->all();
     }
 
+    public function getByEmail(string $email)
+    {
+        return $this->user->where('email', $email)->first();
+    }
+
+
     public function getUserById(string $id)
     {
         return $this->user->findOrFail($id);
@@ -36,4 +42,11 @@ class UserRepository implements IUserRepository
 
         $user->save();
     }
+
+    public function createUser(array $data)
+    {
+       return $this->user->create($data);
+    }
+
+
 }

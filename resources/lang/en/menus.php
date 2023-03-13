@@ -61,7 +61,7 @@ return [
     'transaction' => [
         'title' => 'Transaction',
         'permission' => '#',
-        'slug' => route('film-selling.index'),
+        'slug' => route('transaction.index'),
         'icon' => 'fa-solid fa-clock-rotate-left',
     ],
     'userMaster' => [

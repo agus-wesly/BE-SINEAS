@@ -1,12 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-sm">
-                <a class="btn btn-success" href="{{ route('movie.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.film.title_singular') }}
-                </a>
-            </div>
-        </div>
     <div class="card">
         <div class="card-header">
             {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
@@ -21,22 +14,28 @@
 
                             </th>
                             <th>
-                                {{ trans('cruds.film.title_singular') }}
+                                {{ trans('cruds.transaction.fields.id') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.duration') }}
+                                {{ trans('cruds.transaction.fields.user_name') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.description') }}
+                                {{ trans('cruds.transaction.fields.code') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.url_trailer') }}
+                                {{ trans('cruds.transaction.fields.title_film') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.url_film') }}
+                                {{ trans('cruds.transaction.fields.payment_method') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.film_date') }}
+                                {{ trans('cruds.transaction.fields.payment_status') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.transaction.fields.taxes') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.transaction.fields.subtotal') }}
                             </th>
                             <th class="text-center">
                                 Aksi
@@ -44,43 +43,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($films as $key => $film)
-                            <tr data-entry-id="{{ $film->id }}">
-                                <td>
+{{--                        @foreach ($transactions as $key => $transaction)--}}
+{{--                            <tr data-entry-id="{{ $transaction->id }}">--}}
+{{--                                <td>--}}
 
-                                </td>
-                                <td>
-                                    {{ $film->title ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->duration ?? '' }}
-                                </td>
-                                <td>
-                                    {{ Str::limit($film->desc, 40) ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->url_trailer ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->url_film ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->date ?? '' }}
-                                </td>
-                                <td class="d-flex justify-content-center">
-                                        <a class="btn btn-xs btn-primary mr-2"
-                                            href="{{ route('movie.show', $film->id) }}">
-                                            {{ trans('global.view') }}
-                                        </a>
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->id }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->user?->name }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->code }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->title_film }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->payment_method }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->payment_status }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->tax }}--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    {{ $transaction?->subtotal }}--}}
+{{--                                </td>--}}
+{{--                                <td class="d-flex justify-content-center">--}}
+{{--                                        <a class="btn btn-xs btn-primary mr-2"--}}
+{{--                                            href="{{ route('transaction.show', $transaction->id) }}">--}}
+{{--                                            {{ trans('global.view') }}--}}
+{{--                                        </a>--}}
 
-                                        <a class="btn btn-xs btn-info"
-                                            href="{{ route('movie.edit', $film->id) }}">
-                                            {{ trans('global.edit') }}
-                                        </a>
-                                </td>
+{{--                                        <a class="btn btn-xs btn-info"--}}
+{{--                                            href="{{ route('transaction.edit', $transaction->id) }}">--}}
+{{--                                            {{ trans('global.edit') }}--}}
+{{--                                        </a>--}}
+{{--                                </td>--}}
 
-                            </tr>
-                        @endforeach
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
                     </tbody>
                 </table>
             </div>
