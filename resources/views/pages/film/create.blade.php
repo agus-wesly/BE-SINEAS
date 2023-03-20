@@ -1,4 +1,16 @@
 @extends('layouts.admin')
+@section('styles')
+    <style>
+        /*.select2-container--default .select2-selection--multiple .select2-selection__choice {*/
+        /*    background-color: #007bff;*/
+        /*    border-color: #007bff;*/
+        /*}*/
+        img {
+            max-width: 500px;
+            max-height: 500px;
+        }
+    </style>
+@endsection
 @section('content')
 
 <div class="card">
@@ -105,11 +117,19 @@
                                <div class="row">
                                    <div class="form-group col">
                                        <label for="thumbnail">Gambar Thumbnail</label>
-                                       <input type="file" class="form-control" name="thumbnail" accept="image/*" required>
+                                       <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/*" required>
                                    </div>
                                    <div class="form-group col">
                                        <label for="background">Gambar Background</label>
-                                       <input type="file" class="form-control" name="background" accept="image/*" required>
+                                       <input type="file" class="form-control" id="background" name="background" accept="image/*" required>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="form-group col">
+                                       <img id="tampilanGambarThumbnail">
+                                   </div>
+                                   <div class="form-group col">
+                                       <img id="tampilanGambarBackground">
                                    </div>
                                </div>
                                <div class="row">
@@ -216,7 +236,30 @@
 @section('scripts')
     @parent
     <script>
+
         $(document).ready(function() {
+            $('#thumbnail').change(function() {
+                var file = $(this)[0].files[0];
+                var fileReader = new FileReader();
+                fileReader.onload = function(event) {
+                    $('#tampilanGambarThumbnail')
+                        .attr('src', event.target.result)
+                        .attr('class', 'img-thumbnail rounded');
+                };
+                fileReader.readAsDataURL(file);
+            });
+
+            $('#background').change(function() {
+                var file = $(this)[0].files[0];
+                var fileReader = new FileReader();
+                fileReader.onload = function(event) {
+                    $('#tampilanGambarBackground')
+                        .attr('src', event.target.result)
+                        .attr('class', 'img-thumbnail rounded');
+                };
+                fileReader.readAsDataURL(file);
+            });
+
             $('#genre_id').select2({
                 tags: true
             })

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 interface IBannerService
 {
-    public function getAllBanner(): object;
+    public function getAllBanner(string $status = null): object;
     public function getBannerById(int $id): object;
     public function addBanner(Request $data): void;
     public function editBanner(array $data, $banner): void;

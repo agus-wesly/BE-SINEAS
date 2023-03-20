@@ -11,6 +11,14 @@ class Film extends Model
 
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->slug = \Str::slug($model->title);
+        });
+    }
+
     public function gallery()
     {
         return $this->hasMany(FilmGallery::class);
