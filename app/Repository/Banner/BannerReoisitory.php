@@ -2,6 +2,7 @@
 
 namespace App\Repository\Banner;
 
+use App\Http\Resources\BannerResource;
 use App\Models\Banner;
 
 class BannerReoisitory implements IBannerRepository
@@ -17,16 +18,17 @@ class BannerReoisitory implements IBannerRepository
     }
 
 
-    public function getAll(): object
+    public function getAll(string $status = null): object
     {
-        return $this->banner
-                    ->toBase()
-                    ->get();
+        if ($status) {
+            return BannerResource::collection($this->banner->where('status', $status)->toBase()->get());
+        }
+        return BannerResource::collection($this->banner->toBase()->get());
     }
 
     public function getById(int $id): Banner
     {
-        return $this->banner->findOrfail($id);
+        return $this->banner->findOrFail($id);
     }
 
     public function create(array $data): void

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BannerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,14 @@ Route::controller(AuthController::class)
         Route::get('login-social-callback', 'handleProviderCallback');
         Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::controller(BannerController::class)
+        ->group(function (){
+            Route::get('banners', 'index');
+            Route::get('banners/{id}', 'show');
+//            Route::post('banners', 'store');
+//            Route::put('banners/{id}', 'update');
+//            Route::delete('banners/{id}', 'destroy');
+        });
+});

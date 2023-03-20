@@ -5,6 +5,7 @@ namespace App\Services\Banner;
 use App\Repository\Banner\IBannerRepository;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BannerService implements IBannerService
 {
@@ -19,14 +20,19 @@ class BannerService implements IBannerService
         $this->bannerRepo = $bannerRepo;
     }
 
-    public function getAllBanner(): object
+    public function getAllBanner(string $status = null): object
     {
-        return $this->bannerRepo->getAll();
+        return $this->bannerRepo->getAll($status);
     }
 
     public function getBannerById(int $id): object
     {
-        return $this->bannerRepo->getById($id);
+        try {
+            return $this->bannerRepo->getById($id);
+        } catch (\Exception $e) {
+            report($e);
+            throw ValidationException::withMessages(['error' => "Banner not found"]);
+        }
     }
 
     public function addBanner(Request $request): void
