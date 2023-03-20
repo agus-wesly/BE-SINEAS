@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
-use App\Http\Requests\API\RegisterRequest;
+use App\Http\Requests\Api\RegisterRequest;
 use App\Models\User;
 use App\Services\Socialite\ISocialiteService;
 use App\Services\User\IUserService;
