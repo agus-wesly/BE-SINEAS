@@ -8,7 +8,7 @@ use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class bannerController extends Controller
+class BannerController extends Controller
 {
     use ResponseAPI;
 
