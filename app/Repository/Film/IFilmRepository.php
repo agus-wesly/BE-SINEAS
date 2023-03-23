@@ -17,4 +17,7 @@ interface IFilmRepository
     public function updateFilm(array $data, Film $film);
     public function deleteFilm(int $id);
     public function deleteImageFilm(int $id);
+    public function FilmPopuler($request);
+    public function FilmTerbaru($request);
+    public function FilmComingsoon($request);
 }

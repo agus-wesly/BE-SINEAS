@@ -2,6 +2,7 @@
 
 namespace App\Repository\Film;
 
+use App\Http\Resources\FilmComingSoonResource;
 use App\Models\Film;
 
 class FilmRepository implements IFilmRepository
@@ -77,4 +78,61 @@ class FilmRepository implements IFilmRepository
     {
         $this->film->gallery()->findOrFail($id)?->delete();
     }
+
+    public function FilmPopuler($request)
+    {
+        if ($request->type === 'all') {
+            return $this->film
+                    ->with('gallery')
+                    ->withCount('filmView')
+                    ->orderByDesc('film_view_count')
+                    ->paginate($request->per_page?? 10, page: $request->page?? 1);
+        }
+
+        return $this->film
+            ->with('gallery')
+            ->withCount('filmView')
+            ->orderByDesc('film_view_count')
+            ->limit(10)
+            ->get();
+    }
+
+    public function FilmTerbaru($request)
+    {
+        if ($request->type === 'all') {
+            return $this->film
+                ->with('gallery')
+                ->orderByDesc('created_at')
+                ->paginate($request->per_page?? 10, page: $request->page?? 1);
+        }
+
+        return $this->film
+            ->with('gallery')
+            ->orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+    }
+    public function FilmComingsoon($request)
+    {
+        if ($request->type === 'all') {
+            $film = $this->film
+                ->with(['filmSelling', 'gallery'])
+                ->whereHas('filmSelling', function ($query) {
+                    $query->where('status', 'comingsoon');
+                })->paginate($request->per_page?? 10, page: $request->page?? 1);
+            return [FilmComingSoonResource::collection($film), $film];
+        }
+
+
+        return FilmComingSoonResource::collection( $this->film
+            ->newQuery()
+            ->with(['filmSelling', 'gallery'])
+            ->whereHas('filmSelling', function ($query) {
+                $query->where('status', 'comingsoon');
+            })
+            ->limit(10)
+            ->get());
+    }
+
+
 }
