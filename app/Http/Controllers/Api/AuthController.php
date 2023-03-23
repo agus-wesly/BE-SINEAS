@@ -5,18 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
-use App\Models\User;
 use App\Services\Socialite\ISocialiteService;
 use App\Services\User\IUserService;
 use App\Traits\ResponseAPI;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    use ResponseAPI;
     private IUserService $userService;
     private ISocialiteService $socialite;
 
@@ -29,8 +26,6 @@ class AuthController extends Controller
         $this->userService = $userService;
         $this->socialite = $socialite;
     }
-
-    use ResponseAPI;
 
 
     public function Login(LoginRequest $request): JsonResponse

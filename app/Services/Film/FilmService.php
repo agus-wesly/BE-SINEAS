@@ -61,7 +61,7 @@ class FilmService implements IFilmService
     public function addFilm(Request $request)
     {
         $data = $request->all();
-        $data = $this->addImage($data,$request);
+        $data = $this->addImage($data, $request);
         try {
             \DB::beginTransaction();
             $film = $this->filmRepository->createFilm($data);

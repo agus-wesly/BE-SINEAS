@@ -124,7 +124,7 @@ class FilmRepository implements IFilmRepository
         }
 
 
-        return FilmComingSoonResource::collection( $this->film
+        return FilmComingSoonResource::collection($this->film
             ->newQuery()
             ->with(['filmSelling', 'gallery'])
             ->whereHas('filmSelling', function ($query) {
