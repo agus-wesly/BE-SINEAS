@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\HomePageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,8 +35,12 @@ Route::middleware('auth:sanctum')->group(function (){
         ->group(function (){
             Route::get('banners', 'index');
             Route::get('banners/{id}', 'show');
-//            Route::post('banners', 'store');
-//            Route::put('banners/{id}', 'update');
-//            Route::delete('banners/{id}', 'destroy');
+        });
+
+    Route::controller(HomePageController::class)
+        ->group(function (){
+            Route::get('film-populer', 'filmPopuler');
+            Route::get('film-terbaru', 'filmTerbaru');
+            Route::get('film-coming-soon', 'filmComingSoon');
         });
 });
