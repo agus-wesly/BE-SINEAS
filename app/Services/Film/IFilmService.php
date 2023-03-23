@@ -14,4 +14,7 @@ interface IFilmService
     public function deleteFilm(int $id): bool|null;
     public function addImageToFilm(array $data, int $filmId): bool|null;
     public function deleteImageFromFilm(int $filmId): bool|null;
+    public function getFilmPopuler(Request $request): object;
+    public function getFilmTerbaru(Request $request): object;
+    public function getFilmComingSoon(Request $request): mixed;
 }
