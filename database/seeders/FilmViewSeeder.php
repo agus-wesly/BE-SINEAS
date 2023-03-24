@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\FilmView;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FilmViewSeeder extends Seeder

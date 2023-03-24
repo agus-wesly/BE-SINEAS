@@ -17,6 +17,7 @@ class FilmComingSoonResource extends JsonResource
         return [
             'id' => $this?->id,
             'title' => $this?->title,
+            'slug' => $this?->slug,
             'description' => $this?->desc,
             'url_film' => $this?->url_film,
             'url_trailer' => $this?->url_trailer,

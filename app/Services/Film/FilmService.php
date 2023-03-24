@@ -61,7 +61,7 @@ class FilmService implements IFilmService
     public function addFilm(Request $request)
     {
         $data = $request->all();
-        $data = $this->addImage($data,$request);
+        $data = $this->addImage($data, $request);
         try {
             \DB::beginTransaction();
             $film = $this->filmRepository->createFilm($data);
@@ -194,6 +194,18 @@ class FilmService implements IFilmService
             report($e);
             throw ValidationException::withMessages([
                 'error' => 'server error'
+            ]);
+        }
+    }
+
+    public function getFilmBySlug(string $slug): Film
+    {
+        try {
+            return $this->filmRepository->filmBySlug($slug);
+        } catch (\Exception $e) {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'Film not found'
             ]);
         }
     }

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
-use App\Http\Controllers\Api\HomePageController;
+use App\Http\Controllers\Api\FilmController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(AuthController::class)
-    ->group(function (){
+    ->group(function () {
         Route::post('login', 'login');
         Route::post('register', 'register');
         Route::get('login-social', 'redirectToProvider');
@@ -30,17 +30,18 @@ Route::controller(AuthController::class)
         Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
 
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum')->group(function () {
     Route::controller(BannerController::class)
-        ->group(function (){
+        ->group(function () {
             Route::get('banners', 'index');
             Route::get('banners/{id}', 'show');
         });
 
-    Route::controller(HomePageController::class)
-        ->group(function (){
+    Route::controller(FilmController::class)
+        ->group(function () {
             Route::get('film-populer', 'filmPopuler');
             Route::get('film-terbaru', 'filmTerbaru');
             Route::get('film-coming-soon', 'filmComingSoon');
+            Route::get('film/{slug}', 'show');
         });
 });

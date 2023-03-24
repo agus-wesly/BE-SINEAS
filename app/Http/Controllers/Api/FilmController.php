@@ -8,7 +8,7 @@ use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class HomePageController extends Controller
+class FilmController extends Controller
 {
     use ResponseAPI;
     private IFilmService $filmService;
@@ -34,5 +34,10 @@ class HomePageController extends Controller
     public function filmComingSoon(Request $request): JsonResponse
     {
         return $this->success('list film coming soon', $this->filmService->getFilmComingSoon($request));
+    }
+
+    public function show(string $slug): JsonResponse
+    {
+        return $this->success('detail film', $this->filmService->getFilmBySlug($slug));
     }
 }

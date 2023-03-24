@@ -17,4 +17,5 @@ interface IFilmService
     public function getFilmPopuler(Request $request): object;
     public function getFilmTerbaru(Request $request): object;
     public function getFilmComingSoon(Request $request): mixed;
+    public function getFilmBySlug(string $slug): Film;
 }
