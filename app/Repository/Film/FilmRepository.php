@@ -123,7 +123,6 @@ class FilmRepository implements IFilmRepository
             return [FilmComingSoonResource::collection($film), $film];
         }
 
-
         return FilmComingSoonResource::collection($this->film
             ->newQuery()
             ->with(['filmSelling', 'gallery'])
@@ -132,6 +131,14 @@ class FilmRepository implements IFilmRepository
             })
             ->limit(10)
             ->get());
+    }
+
+    public function filmBySlug(string $slug)
+    {
+        return $this->film
+            ->with(['information', 'actors','gallery', 'filmGenre:name'])
+            ->where('slug', $slug)
+            ->firstOrFail();
     }
 
 
