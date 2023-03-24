@@ -198,5 +198,17 @@ class FilmService implements IFilmService
         }
     }
 
+    public function getFilmBySlug(string $slug): Film
+    {
+        try {
+            return $this->filmRepository->filmBySlug($slug);
+        } catch (\Exception $e) {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'Film not found'
+            ]);
+        }
+    }
+
 
 }
