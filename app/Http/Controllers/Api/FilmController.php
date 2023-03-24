@@ -35,4 +35,9 @@ class FilmController extends Controller
     {
         return $this->success('list film coming soon', $this->filmService->getFilmComingSoon($request));
     }
+
+    public function show(string $slug): JsonResponse
+    {
+        return $this->success('detail film', $this->filmService->getFilmBySlug($slug));
+    }
 }
