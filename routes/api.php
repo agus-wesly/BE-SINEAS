@@ -42,5 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('film-populer', 'filmPopuler');
             Route::get('film-terbaru', 'filmTerbaru');
             Route::get('film-coming-soon', 'filmComingSoon');
+            Route::get('film/{slug}', 'show');
         });
 });
