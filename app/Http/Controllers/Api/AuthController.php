@@ -9,7 +9,10 @@ use App\Services\Socialite\ISocialiteService;
 use App\Services\User\IUserService;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Google_Client;
+use Google_Service_Oauth2;
 
 class AuthController extends Controller
 {
@@ -91,6 +94,18 @@ class AuthController extends Controller
             return $this->error("login failed", 500);
         }
         return $this->success('successfully to login', $data, 200);
+    }
+
+    public function loginWithGoogle(Request $request): ?JsonResponse
+    {
+        $idToken = $request->input('id_token');
+
+        try {
+            return $this->success('successfully to login', $this->socialite->handleVerifyGoogle($idToken), 200);
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 401);
+        }
     }
 
 }
