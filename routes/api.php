@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\FilmController;
+use App\Http\Controllers\Api\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,22 +27,23 @@ Route::controller(AuthController::class)
         Route::post('login', 'login');
         Route::post('register', 'register');
         Route::get('login-social', 'redirectToProvider');
-        Route::get('login-social-callback', 'handleProviderCallback');
+        Route::post('login-google', 'loginWithGoogle');
+        Route::get('login-social-callback', 'loginWithGoogle');
         Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(BannerController::class)
-        ->group(function () {
-            Route::get('banners', 'index');
-            Route::get('banners/{id}', 'show');
-        });
+Route::controller(BannerController::class)
+    ->group(function () {
+        Route::get('banners', 'index');
+        Route::get('banners/{id}', 'show');
+    });
 
-    Route::controller(FilmController::class)
-        ->group(function () {
-            Route::get('film-populer', 'filmPopuler');
-            Route::get('film-terbaru', 'filmTerbaru');
-            Route::get('film-coming-soon', 'filmComingSoon');
-            Route::get('film/{slug}', 'show');
-        });
-});
+Route::controller(FilmController::class)
+    ->group(function () {
+        Route::get('film-populer', 'filmPopuler');
+        Route::get('film-terbaru', 'filmTerbaru');
+        Route::get('film-coming-soon', 'filmComingSoon');
+        Route::get('film/{slug}', 'show');
+    });
+
+Route::get('genres', GenreController::class);
