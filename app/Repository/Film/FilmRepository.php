@@ -81,64 +81,36 @@ class FilmRepository implements IFilmRepository
 
     public function FilmPopuler($request)
     {
-        if ($request->type === 'all') {
-            return $this->film
-                    ->with('gallery')
-                    ->withCount('filmView')
-                    ->orderByDesc('film_view_count')
-                    ->paginate($request->per_page?? 10, page: $request->page?? 1);
-        }
-
         return $this->film
-            ->with('gallery')
-            ->withCount('filmView')
-            ->orderByDesc('film_view_count')
-            ->limit(10)
-            ->get();
+                ->with('gallery')
+                ->withCount('filmView')
+                ->orderByDesc('film_view_count')
+                ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
 
     public function FilmTerbaru($request)
     {
-        if ($request->type === 'all') {
-            return $this->film
-                ->with('gallery')
-                ->orderByDesc('created_at')
-                ->paginate($request->per_page?? 10, page: $request->page?? 1);
-        }
-
         return $this->film
             ->with('gallery')
             ->orderByDesc('created_at')
-            ->limit(10)
-            ->get();
+            ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
     public function FilmComingsoon($request)
     {
-        if ($request->type === 'all') {
-            $film = $this->film
-                ->with(['filmSelling', 'gallery'])
-                ->whereHas('filmSelling', function ($query) {
-                    $query->where('status', 'comingsoon');
-                })->paginate($request->per_page?? 10, page: $request->page?? 1);
-            return [FilmComingSoonResource::collection($film), $film];
-        }
-
-        return FilmComingSoonResource::collection($this->film
-            ->newQuery()
+        $film = $this->film
             ->with(['filmSelling', 'gallery'])
             ->whereHas('filmSelling', function ($query) {
                 $query->where('status', 'comingsoon');
-            })
-            ->limit(10)
-            ->get());
+            })->paginate($request->per_page?? 10, page: $request->page?? 1);
+        return [FilmComingSoonResource::collection($film), $film];
     }
 
     public function filmBySlug(string $slug)
     {
-        return $this->film
+        return FilmComingSoonResource::collection($this->film
             ->with(['information', 'actors','gallery', 'filmGenre:name'])
             ->where('slug', $slug)
-            ->firstOrFail();
+            ->firstOrFail());
     }
 
 

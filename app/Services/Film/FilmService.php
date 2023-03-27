@@ -167,28 +167,25 @@ class FilmService implements IFilmService
     public function getFilmComingSoon(Request $request): mixed
     {
         try {
-            if ($request->type === 'all'){
-                $film = $this->filmRepository->filmComingSoon($request);
-                return (object) [
-                    'data' => $film[0],
-                    'links' => [
-                        'first' => $film[1]->url(1),
-                        'last' => $film[1]->url($film[1]->lastPage()),
-                        'prev' => $film[1]->previousPageUrl(),
-                        'next' => $film[1]->nextPageUrl(),
-                    ],
-                    'meta' => [
-                        'current_page' => $film[1]->currentPage(),
-                        'from' => $film[1]->firstItem(),
-                        'last_page' => $film[1]->lastPage(),
-                        'path' =>$film[1]->path(),
-                        'per_page' => $film[1]->perPage(),
-                        'to' => $film[1]->lastItem(),
-                        'total' => $film[1]->total(),
-                    ],
-                ];
-            }
-            return $this->filmRepository->filmComingSoon($request);
+            $film = $this->filmRepository->filmComingSoon($request);
+            return (object) [
+                'data' => $film[0],
+                'links' => [
+                    'first' => $film[1]->url(1),
+                    'last' => $film[1]->url($film[1]->lastPage()),
+                    'prev' => $film[1]->previousPageUrl(),
+                    'next' => $film[1]->nextPageUrl(),
+                ],
+                'meta' => [
+                    'current_page' => $film[1]->currentPage(),
+                    'from' => $film[1]->firstItem(),
+                    'last_page' => $film[1]->lastPage(),
+                    'path' =>$film[1]->path(),
+                    'per_page' => $film[1]->perPage(),
+                    'to' => $film[1]->lastItem(),
+                    'total' => $film[1]->total(),
+                ],
+            ];
         } catch (\Exception $e)
         {
             report($e);
