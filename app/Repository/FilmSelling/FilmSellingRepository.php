@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repository\FilmSelling;
+
 use App\Models\FilmSelling;
 
 class FilmSellingRepository implements IFIlmSellingRepository

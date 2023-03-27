@@ -2,7 +2,6 @@
 
 namespace App\Repository\FilmSellingPrice;
 
-
 use App\Models\FilmSellingPrice;
 
 interface IFilmSellingPriceRepository

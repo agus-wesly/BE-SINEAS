@@ -14,17 +14,22 @@ class FilmComingSoonResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this?->id,
             'title' => $this?->title,
+            'slug' => $this?->slug,
             'description' => $this?->desc,
             'url_film' => $this?->url_film,
             'url_trailer' => $this?->url_trailer,
             'duration' => $this?->duration,
             'date' => $this?->date,
             'status' => $this?->filmSelling?->status,
-            'gallery' => $this?->gallery,
+            'gallery' => FilmGalleryResource::collection($this?->gallery),
             'created_at' => $this?->created_at,
         ];
+        if ($this?->gallery->count() > 0) {
+            $data['image'] = $this?->gallery;
+        }
+        return $data;
     }
 }

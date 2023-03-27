@@ -2,6 +2,7 @@
 
 namespace App\Repository\genre;
 
+use App\Http\Resources\GenreResource;
 use App\Models\Genre;
 
 class GenreRepository implements IGenreRepository
@@ -15,7 +16,7 @@ class GenreRepository implements IGenreRepository
 
     public function getAllGenres(): object
     {
-        return $this->genre->all();
+        return GenreResource::collection($this->genre->all());
     }
 
     public function getGenreWithPluck(): Genre

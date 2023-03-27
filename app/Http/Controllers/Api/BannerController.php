@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Services\Banner\IBannerService;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {

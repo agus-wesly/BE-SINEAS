@@ -20,4 +20,5 @@ interface IFilmRepository
     public function FilmPopuler($request);
     public function FilmTerbaru($request);
     public function FilmComingsoon($request);
+    public function filmBySlug(string $slug);
 }
