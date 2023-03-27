@@ -16,7 +16,12 @@ class GenreService implements \App\services\genre\IGenreService
     }
     public function getAllGenres(): object
     {
-        return $this->genreRepo->getAllGenres();
+        try {
+            return $this->genreRepo->getAllGenres();
+        } catch (\Exception $e) {
+            report($e);
+           throw ValidationException::withMessages(['error' => 'Server error']);
+        }
     }
 
     public function getGenreWithPluck(): object
