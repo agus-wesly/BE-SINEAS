@@ -2,6 +2,8 @@
 
 namespace App\Repository\Film;
 
+use App\DataTransferObjects\FilmDto;
+use App\DataTransferObjects\SearchFilmDto;
 use App\Models\Film;
 
 interface IFilmRepository
@@ -20,5 +22,7 @@ interface IFilmRepository
     public function FilmPopuler($request);
     public function FilmTerbaru($request);
     public function FilmComingsoon($request);
+    public function filmByGenre(FilmDto $dto);
     public function filmBySlug(string $slug);
+    public function searchFilm(SearchFilmDto $dto);
 }
