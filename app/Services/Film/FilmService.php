@@ -2,7 +2,10 @@
 
 namespace App\Services\Film;
 
+use App\DataTransferObjects\FilmDto;
+use App\DataTransferObjects\SearchFilmDto;
 use App\Enums\TypeFilm;
+use App\Http\Resources\FilmComingSoonResource;
 use App\Models\Film;
 use App\Repository\Film\IFilmRepository;
 use Illuminate\Http\Request;
@@ -195,7 +198,22 @@ class FilmService implements IFilmService
         }
     }
 
-    public function getFilmBySlug(string $slug): Film
+    public function getFilmByGenre(Request $request,  string $slug): object
+    {
+        try {
+            return $this->filmRepository->filmByGenre(
+               FilmDto::fromFilmGenre($request,  $slug)
+            );
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'server error'
+            ]);
+        }
+    }
+
+    public function getFilmBySlug(string $slug): FilmComingSoonResource
     {
         try {
             return $this->filmRepository->filmBySlug($slug);
@@ -203,6 +221,19 @@ class FilmService implements IFilmService
             report($e);
             throw ValidationException::withMessages([
                 'error' => 'Film not found'
+            ]);
+        }
+    }
+
+    public function searchFilm(Request $request): object
+    {
+        try {
+            return $this->filmRepository->searchFilm(SearchFilmDto::fromRequest($request));
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'server error'
             ]);
         }
     }
