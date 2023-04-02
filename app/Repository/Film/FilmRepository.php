@@ -2,8 +2,11 @@
 
 namespace App\Repository\Film;
 
+use App\DataTransferObjects\FilmDto;
+use App\DataTransferObjects\SearchFilmDto;
 use App\Http\Resources\FilmComingSoonResource;
 use App\Models\Film;
+use Laravel\Scout\Builder;
 
 class FilmRepository implements IFilmRepository
 {
@@ -95,7 +98,7 @@ class FilmRepository implements IFilmRepository
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
-    public function FilmComingsoon($request)
+    public function FilmComingsoon($request): array
     {
         $film = $this->film
             ->with(['filmSelling', 'gallery'])
@@ -105,13 +108,40 @@ class FilmRepository implements IFilmRepository
         return [FilmComingSoonResource::collection($film), $film];
     }
 
+    public function filmByGenre(FilmDto $dto): object
+    {
+        return $this->film
+            ->with(['gallery', 'filmGenre:name'])
+            ->whereHas('filmGenre', function ($query) use ($dto) {
+                $query->whereSlug($dto->genre);
+            })
+            ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
+
     public function filmBySlug(string $slug)
     {
-        return FilmComingSoonResource::collection($this->film
+        return new FilmComingSoonResource($this->film
             ->with(['information', 'actors','gallery', 'filmGenre:name'])
             ->where('slug', $slug)
             ->firstOrFail());
     }
 
+    public function searchFilm(SearchFilmDto $dto): object
+    {
+        $search = $this->film->search($dto->search);
+        $search = $search->tap(function (Builder $search) use ($dto) {
+            if ($dto->new){
+                $search->orderBy('created_at', 'desc');
+            }
+        });
+
+        $search = $search->tap(function (Builder $search) use ($dto) {
+            if ($dto->sort){
+                $search->orderBy('title', 'desc');
+            }
+        });
+
+        return $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
 
 }

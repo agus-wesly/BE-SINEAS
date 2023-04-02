@@ -44,6 +44,8 @@ Route::controller(FilmController::class)
         Route::get('film-terbaru', 'filmTerbaru');
         Route::get('film-coming-soon', 'filmComingSoon');
         Route::get('film/{slug}', 'show');
+        Route::get('search', 'search');
+        Route::get('genres/{slug}', 'listFilmByGenre');
     });
 
 Route::get('genres', GenreController::class);

@@ -16,12 +16,14 @@ class GenreTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'action',
-                'image' => 'action.jpg',
+                'slug' => 'action',
+                'image' => 'https://dummyimage.com/600x400/000/fff',
             ],
             [
                 'id' => 2,
                 'name' => 'adventure',
-                'image' => 'adventure.jpg',
+                'slug' => 'adventure',
+                'image' => 'https://dummyimage.com/600x400/000/fff',
             ],
         ];
 
