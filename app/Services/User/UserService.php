@@ -59,5 +59,19 @@ class UserService implements IUserService
         }
     }
 
+    public function updateUser(array $data, string $id)
+    {
+        try {
+            $user = $this->userRepository->getUserById($id);
+            $data['password'] = Hash::make($data['password']);
+            return $this->userRepository->updateUser($data, $user);
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'a server error occurred'
+            ]);
+        }
+    }
 
 }

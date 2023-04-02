@@ -2,13 +2,32 @@
 
 namespace App\Models;
 
+use App\Enums\TypeFilm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 
 class Film extends Model
 {
     use HasFactory;
+    use searchable;
+
+    public function searchableAs(): string
+    {
+        return 'posts_index';
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' =>  $this->title,
+        ];
+    }
+
+    protected $casts = [
+        'type' => TypeFilm::class,
+    ];
 
     protected $guarded = ['id'];
 

@@ -24,11 +24,11 @@ class FilmComingSoonResource extends JsonResource
             'duration' => $this?->duration,
             'date' => $this?->date,
             'status' => $this?->filmSelling?->status,
-            'gallery' => FilmGalleryResource::collection($this?->gallery),
+//            'gallery' => FilmGalleryResource::collection($this?->gallery),
             'created_at' => $this?->created_at,
         ];
         if ($this?->gallery->count() > 0) {
-            $data['image'] = $this?->gallery;
+            $data['image'] = FilmGalleryResource::collection($this?->gallery);
         }
         return $data;
     }

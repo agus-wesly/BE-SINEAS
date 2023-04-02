@@ -31,6 +31,7 @@ class GenreRepository implements IGenreRepository
 
     public function createGenre(array $data): void
     {
+        $data['slug'] = \Str::slug($data['name']);
         $this->genre->create($data);
     }
 
