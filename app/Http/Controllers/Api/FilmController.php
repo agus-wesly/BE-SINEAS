@@ -36,8 +36,19 @@ class FilmController extends Controller
         return $this->success('list film coming soon', $this->filmService->getFilmComingSoon($request));
     }
 
+    public function listFilmByGenre(Request $request, string $slug): JsonResponse
+    {
+        return $this->success('list film by genre', $this->filmService->getFilmByGenre($request, $slug));
+    }
+
+
     public function show(string $slug): JsonResponse
     {
         return $this->success('detail film', $this->filmService->getFilmBySlug($slug));
+    }
+
+    public function search(Request $request): JsonResponse
+    {
+        return $this->success('list film by search', $this->filmService->searchFilm($request));
     }
 }
