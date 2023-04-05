@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class FilmDto
 {
-
     public function __construct(
         public readonly ?string $title = null,
         public readonly ?string $slug  = null,
@@ -22,7 +21,7 @@ class FilmDto
         public readonly ?string $genre = null,
         public readonly ?int $perPage = null,
         public readonly ?int $page = null,
-    ){}
+    ) {}
 
     public static function fromFilmGenre(Request $request, string  $slug): FilmDto
     {

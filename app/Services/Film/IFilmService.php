@@ -2,7 +2,7 @@
 
 namespace App\Services\Film;
 
-use App\Http\Resources\FilmComingSoonResource;
+use App\Http\Resources\FilmDetailResource;
 use App\Models\Film;
 use Illuminate\Http\Request;
 
@@ -19,6 +19,6 @@ interface IFilmService
     public function getFilmTerbaru(Request $request): object;
     public function getFilmComingSoon(Request $request): mixed;
     public function getFilmByGenre(Request $request, string $slug): object;
-    public function getFilmBySlug(string $slug): FilmComingSoonResource;
+    public function getFilmBySlug(string $slug): FilmDetailResource;
     public function searchFilm(Request $request): object;
 }
