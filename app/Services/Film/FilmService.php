@@ -5,7 +5,7 @@ namespace App\Services\Film;
 use App\DataTransferObjects\FilmDto;
 use App\DataTransferObjects\SearchFilmDto;
 use App\Enums\TypeFilm;
-use App\Http\Resources\FilmComingSoonResource;
+use App\Http\Resources\FilmDetailResource;
 use App\Models\Film;
 use App\Repository\Film\IFilmRepository;
 use Illuminate\Http\Request;
@@ -198,11 +198,11 @@ class FilmService implements IFilmService
         }
     }
 
-    public function getFilmByGenre(Request $request,  string $slug): object
+    public function getFilmByGenre(Request $request, string $slug): object
     {
         try {
             return $this->filmRepository->filmByGenre(
-               FilmDto::fromFilmGenre($request,  $slug)
+                FilmDto::fromFilmGenre($request, $slug)
             );
         } catch (\Exception $e)
         {
@@ -213,7 +213,7 @@ class FilmService implements IFilmService
         }
     }
 
-    public function getFilmBySlug(string $slug): FilmComingSoonResource
+    public function getFilmBySlug(string $slug): FilmDetailResource
     {
         try {
             return $this->filmRepository->filmBySlug($slug);

@@ -11,8 +11,6 @@ use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Google_Client;
-use Google_Service_Oauth2;
 
 class AuthController extends Controller
 {
