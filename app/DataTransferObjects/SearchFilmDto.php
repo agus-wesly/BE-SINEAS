@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class SearchFilmDto
 {
-
     public function __construct(
         public readonly ?string $search = null,
         public readonly ?bool $new = null,
@@ -19,11 +18,11 @@ class SearchFilmDto
     public static function fromRequest(Request $request): self
     {
         return new self(
-                    search: $request->search,
-                    new: $request->new,
-                    sort: $request->sort,
-                    perPage: $request->per_page,
-                    page: $request->page,
-                );
+            search: $request->search,
+            new: $request->new,
+            sort: $request->sort,
+            perPage: $request->per_page,
+            page: $request->page,
+        );
     }
 }
