@@ -5,6 +5,7 @@ namespace App\Repository\Film;
 use App\DataTransferObjects\FilmDto;
 use App\DataTransferObjects\SearchFilmDto;
 use App\Http\Resources\FilmComingSoonResource;
+use App\Http\Resources\FilmDetailResource;
 use App\Models\Film;
 use Laravel\Scout\Builder;
 
@@ -120,8 +121,8 @@ class FilmRepository implements IFilmRepository
 
     public function filmBySlug(string $slug)
     {
-        return new FilmComingSoonResource($this->film
-            ->with(['information', 'actors','gallery', 'filmGenre:name'])
+        return new FilmDetailResource($this->film
+            ->with(['information', 'actors','gallery', 'filmGenre:name', 'filmView'])
             ->where('slug', $slug)
             ->firstOrFail());
     }
