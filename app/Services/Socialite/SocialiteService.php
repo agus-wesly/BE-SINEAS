@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Facades\Socialite;
 use Google_Client;
-use Google_Service_Oauth2;
 
 class SocialiteService implements ISocialiteService
 {
