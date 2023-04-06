@@ -30,6 +30,10 @@ Route::controller(AuthController::class)
         Route::post('login-google', 'loginWithGoogle');
         Route::get('login-social-callback', 'loginWithGoogle');
         Route::post('logout', 'logout')->middleware('auth:sanctum');
+        Route::put('users/{id}', 'updateUser')->middleware('auth:sanctum');
+        Route::post('users/link-forget', 'sendLinkForgetPassword')->middleware('auth:sanctum');
+        Route::put('users/forget', 'forgetPassword')->middleware('auth:sanctum');
+        Route::get('users', 'currentUser')->middleware('auth:sanctum');
     });
 
 Route::controller(BannerController::class)

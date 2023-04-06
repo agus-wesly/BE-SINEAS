@@ -106,4 +106,25 @@ class AuthController extends Controller
         }
     }
 
+    public function updateUser(Request $request, string $id): JsonResponse
+    {
+        try {
+            $this->userService->updateUser($request->all(), $id);
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 500);
+        }
+        return $this->success('successfully to update user', null, 200);
+    }
+
+    public function currentUser()
+    {
+        try {
+            return $this->success('successfully to get current user', $this->userService->getCurrentUser(), 200);
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
 }
