@@ -2,6 +2,7 @@
 
 namespace App\Repository\User;
 
+use App\DataTransferObjects\ResetPasswordDto;
 use App\Models\User;
 
 interface IUserRepository
@@ -11,4 +12,5 @@ interface IUserRepository
     public function getUserById(string $id);
     public function updateUser(array $data, User $user);
     public function createUser(array $data);
+    public function saveToken(ResetPasswordDto $dto);
 }
