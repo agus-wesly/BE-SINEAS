@@ -3,6 +3,7 @@
 namespace App\Services\Film;
 
 use App\DataTransferObjects\FilmDto;
+use App\DataTransferObjects\PaginateDto;
 use App\DataTransferObjects\SearchFilmDto;
 use App\Enums\TypeFilm;
 use App\Http\Resources\FilmDetailResource;
@@ -213,10 +214,10 @@ class FilmService implements IFilmService
         }
     }
 
-    public function getFilmBySlug(string $slug): FilmDetailResource
+    public function getFilmBySlug(string $slug, string $userId = null): FilmDetailResource
     {
         try {
-            return $this->filmRepository->filmBySlug($slug);
+            return $this->filmRepository->filmBySlug($slug, $userId);
         } catch (\Exception $e) {
             report($e);
             throw ValidationException::withMessages([
@@ -225,12 +226,55 @@ class FilmService implements IFilmService
         }
     }
 
+    public function getRelatedFilm(array $request): object
+    {
+        try {
+            return $this->filmRepository->relatedFilm(
+                FilmDto::fromRelatedFilm($request)
+            );
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'Film related is empty'
+            ]);
+        }
+    }
+
+
     public function searchFilm(Request $request): object
     {
         try {
             return $this->filmRepository->searchFilm(SearchFilmDto::fromRequest($request));
         } catch (\Exception $e)
         {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'server error'
+            ]);
+        }
+    }
+
+    public function whislistFilm(int $filmId): mixed
+    {
+        try {
+            $film = $this->filmRepository->getFilmById($filmId);
+            return $this->filmRepository->whislistFilm($film);
+        } catch (\Exception $e) {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => 'server error'
+            ]);
+        }
+    }
+
+    public function listWhislistFilm($request): mixed
+    {
+        try {
+            return $this->filmRepository->getListWhislistFilm(
+                PaginateDto::fromRequest($request)
+            );
+        } catch (\Exception $e) {
             report($e);
             throw ValidationException::withMessages([
                 'error' => 'server error'

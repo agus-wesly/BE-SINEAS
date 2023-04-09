@@ -9,6 +9,7 @@ class FilmDto
 {
     public function __construct(
         public readonly ?string $title = null,
+        public readonly ?int $filmId = null,
         public readonly ?string $slug  = null,
         public readonly ?string $description  = null,
         public readonly ?string $image  = null,
@@ -29,6 +30,16 @@ class FilmDto
             genre: $slug,
             perPage: $request->per_page,
             page: $request->page,
+        );
+    }
+
+    public static function fromRelatedFilm(array $request): FilmDto
+    {
+        return new self(
+            filmId: $request['filmId'],
+            genre: $request['genre'],
+            perPage: $request['per_page']?? 1,
+            page: $request['page']?? 1,
         );
     }
 }
