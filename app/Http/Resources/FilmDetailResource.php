@@ -28,6 +28,9 @@ class FilmDetailResource extends JsonResource
             'view' => $this->whenLoaded('filmView', function () {
                 return $this->filmView->count();
             }),
+            'wishlist' => $this->whenLoaded('wishlist', function () {
+                return $this->wishlist->count();
+            }),
             'information' => $this?->whenLoaded('information'),
             'actors' => $this?->whenLoaded('actors'),
             'filmGenre' =>$this?->whenLoaded('filmGenre'),

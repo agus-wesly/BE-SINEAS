@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             FilmSellingSeeder::class,
             TransactionSeeder::class,
             FilmViewSeeder::class,
+            FilmImageSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

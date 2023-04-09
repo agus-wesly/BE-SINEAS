@@ -32,7 +32,8 @@ Route::controller(AuthController::class)
         Route::post('logout', 'logout')->middleware('auth:sanctum');
         Route::put('users/{id}', 'updateUser')->middleware('auth:sanctum');
         Route::post('users/link-forget', 'sendLinkForgetPassword')->middleware('auth:sanctum');
-        Route::put('users/forget', 'forgetPassword')->middleware('auth:sanctum');
+        Route::post('users/forget', 'forgetPassword');
+        Route::post('users/reset-password', 'resetPassword');
         Route::get('users', 'currentUser')->middleware('auth:sanctum');
     });
 
@@ -47,9 +48,13 @@ Route::controller(FilmController::class)
         Route::get('film-populer', 'filmPopuler');
         Route::get('film-terbaru', 'filmTerbaru');
         Route::get('film-coming-soon', 'filmComingSoon');
+        Route::get('film-related', 'filmRelated');
         Route::get('film/{slug}', 'show');
         Route::get('search', 'search');
         Route::get('genres/{slug}', 'listFilmByGenre');
+        Route::post('wishlist/{filmId}', 'whislistStore')->middleware('auth:sanctum');
+        Route::get('wishlist', 'whislistList')->middleware('auth:sanctum');
     });
 
 Route::get('genres', GenreController::class);
+

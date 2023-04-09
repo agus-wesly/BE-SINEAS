@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ForgetPasswordRequest;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
+use App\Http\Requests\Api\ResetPasswordRequest;
 use App\Services\Socialite\ISocialiteService;
 use App\Services\User\IUserService;
 use App\Traits\ResponseAPI;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -117,7 +122,7 @@ class AuthController extends Controller
         return $this->success('successfully to update user', null, 200);
     }
 
-    public function currentUser()
+    public function currentUser(): ?JsonResponse
     {
         try {
             return $this->success('successfully to get current user', $this->userService->getCurrentUser(), 200);
@@ -125,6 +130,31 @@ class AuthController extends Controller
             report($e);
             return $this->error($e->getMessage(), 500);
         }
+    }
+
+    public function forgetPassword(ForgetPasswordRequest $request): ?JsonResponse
+    {
+        try {
+            $this->userService->forgetPassword($request->email);
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 500);
+        }
+        return $this->success('successfully to send email', null, 200);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request): ?JsonResponse
+    {
+        try {
+            $status = $this->userService->resetPassword($request);
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 500);
+        }
+
+        return $status == Password::PASSWORD_RESET
+            ? $this->success('successfully to reset password', null, 200)
+            : $this->error('failed to reset password', 500);
     }
 
 }

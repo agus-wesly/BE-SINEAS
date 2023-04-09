@@ -2,7 +2,9 @@
 
 namespace App\Repository\User;
 
+use App\DataTransferObjects\ResetPasswordDto;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements IUserRepository
 {
@@ -46,6 +48,22 @@ class UserRepository implements IUserRepository
     public function createUser(array $data)
     {
        return $this->user->create($data);
+    }
+
+    public function saveToken(ResetPasswordDto $dto)
+    {
+        try {
+            \DB::table('password_reset_tokens')
+                ->updateOrInsert(['email' => $dto->email],[
+                    'email' => $dto->email,
+                    'token' => Hash::make($dto->token),
+                    'created_at' => now()
+                ]);
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw new \Exception('a server error occurred');
+        }
     }
 
 

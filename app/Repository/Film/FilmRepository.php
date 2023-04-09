@@ -3,6 +3,7 @@
 namespace App\Repository\Film;
 
 use App\DataTransferObjects\FilmDto;
+use App\DataTransferObjects\PaginateDto;
 use App\DataTransferObjects\SearchFilmDto;
 use App\Http\Resources\FilmComingSoonResource;
 use App\Http\Resources\FilmDetailResource;
@@ -119,13 +120,35 @@ class FilmRepository implements IFilmRepository
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
 
-    public function filmBySlug(string $slug)
+    public function filmBySlug(string $slug, string $userId = null)
     {
-        return new FilmDetailResource($this->film
+        $film = $this->film
             ->with(['information', 'actors','gallery', 'filmGenre:name', 'filmView'])
             ->where('slug', $slug)
-            ->firstOrFail());
+            ->firstOrFail();
+
+        if ($userId){
+           $film->load(['wishlist' => function ($query) use ($userId) {
+               $query->where('user_id', $userId);
+           }]);
+        }
+
+        return new FilmDetailResource($film);
     }
+
+
+
+    public function relatedFilm(FilmDto $dto)
+    {
+        return $this->film
+            ->with('gallery')
+            ->whereHas('filmGenre', function ($query) use ($dto) {
+                $query->whereName($dto->genre);
+            })
+            ->where('id', '!=', $dto->filmId)
+            ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
+
 
     public function searchFilm(SearchFilmDto $dto): object
     {
@@ -143,6 +166,28 @@ class FilmRepository implements IFilmRepository
         });
 
         return $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
+
+    public function whislistFilm($film)
+    {
+        $userWishlist = $film->wishlist()->where('user_id', auth()->id())->first();
+        if (isset($userWishlist)){
+            return $userWishlist->delete();
+        }
+
+        return $film->wishlist()->create([
+            'user_id' => auth()->id()
+        ]);
+    }
+
+    public function getListWhislistFilm(PaginateDto $dto)
+    {
+        return $this->film
+            ->with('gallery')
+            ->whereHas('wishlist', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
 
 }
