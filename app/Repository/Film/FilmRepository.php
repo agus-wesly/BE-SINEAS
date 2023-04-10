@@ -8,6 +8,7 @@ use App\DataTransferObjects\SearchFilmDto;
 use App\Http\Resources\FilmComingSoonResource;
 use App\Http\Resources\FilmDetailResource;
 use App\Models\Film;
+use Carbon\Carbon;
 use Laravel\Scout\Builder;
 
 class FilmRepository implements IFilmRepository
@@ -146,6 +147,30 @@ class FilmRepository implements IFilmRepository
                 $query->whereName($dto->genre);
             })
             ->where('id', '!=', $dto->filmId)
+            ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
+
+    public function filmBeingWatched(PaginateDto $dto)
+    {
+        return $this->film
+        ->with(['gallery','transaction:film_id,watch_expired_date'])
+        ->withWhereHas('transaction', function ($query) {
+            $query->where('user_id', auth()->user()->id)
+                ->where('payment_status', 'success')
+                ->where('watch_expired_date', '>=', Carbon::now());
+        })
+        ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    }
+
+    public function filmWatched(PaginateDto $dto)
+    {
+        return $this->film
+            ->with(['gallery','transaction:film_id,watch_expired_date'])
+            ->whereHas('transaction', function ($query) {
+                $query->where('user_id', auth()->user()->id)
+                    ->where('payment_status', 'success')
+                    ->where('watch_expired_date', '<=', Carbon::now());
+            })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
 
