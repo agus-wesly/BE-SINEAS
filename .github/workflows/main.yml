@@ -3,7 +3,7 @@ name: Laravel Release
 on:
   push:
     branches:
-      - master
+      - production
       - development
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
             cd public_html/sineasmov_backend_dev
             php artisan down
             git stash
-            git checkout master
+            git checkout production
             git pull
             composer install
             php artisan migrate --force
