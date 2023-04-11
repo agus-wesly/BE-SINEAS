@@ -28,7 +28,7 @@ jobs:
           script: |
             eval "$(ssh-agent -s)"
             ssh-add .ssh/id_rsa
-            cd public_html/sineasmov_backend_dev
+            cd public_html/sineasmov_backend_prod
             php artisan down
             git stash
             git checkout production
