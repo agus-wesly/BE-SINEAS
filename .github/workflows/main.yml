@@ -48,7 +48,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Deploy to production with SSH
+      - name: Deploy to development with SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DEV_SSH_HOST }}
