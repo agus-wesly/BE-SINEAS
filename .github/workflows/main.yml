@@ -1,0 +1,71 @@
+name: Laravel Release
+
+on:
+  push:
+    branches:
+      - master
+      - development
+
+jobs:
+  release_production:
+    name: Release web to production
+    if: startsWith(github.event.head_commit.message, 'release-production:')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy to production with SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          passphrase: ${{ secrets.PROD_SSH_PASSPHRASE }}
+          script_stop: true
+          script: |
+            eval "$(ssh-agent -s)"
+            ssh-add .ssh/id_rsa
+            cd public_html/sineasmov_backend_dev
+            php artisan down
+            git stash
+            git checkout master
+            git pull
+            composer install
+            php artisan migrate --force
+            php artisan optimize
+            php artisan up
+            
+            
+  deploy_development:
+    name: Deploy web to development server
+    if: startsWith(github.event.head_commit.message, 'deploy-dev:')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Deploy to production with SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_SSH_HOST }}
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          passphrase: ${{ secrets.DEV_SSH_PASSPHRASE }}
+          script_stop: true
+          script: |
+            eval "$(ssh-agent -s)"
+            ssh-add .ssh/id_rsa
+            cd public_html/sineasmov_backend_dev
+            php artisan down
+            git stash
+            git checkout development
+            git pull
+            composer install
+            php artisan migrate --force
+            php artisan optimize
+            php artisan up
