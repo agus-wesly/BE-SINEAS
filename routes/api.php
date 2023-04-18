@@ -63,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(TransactionController::class)
         ->group(function () {
             Route::get('transaction-success', 'transactionSuccess');
+            Route::post('order', 'createOrder');
+            Route::post('midtrans-callback', 'callbackMidtrans');
         });
 });
 
