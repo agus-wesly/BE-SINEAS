@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Services\Transaction\ITransactionService;
 use App\Traits\ResponseAPI;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -15,31 +17,35 @@ class TransactionController extends Controller
         private readonly ITransactionService $transactionService
     ){}
 
-    public function transactionSuccess(Request $request)
+    public function transactionSuccess(Request $request): JsonResponse
     {
         return $this->success('transaction success', $this->transactionService->getTransactionSuccess($request->all()));
     }
 
-    public function createOrder(Request $request)
+    public function createOrder(Request $request): JsonResponse
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        // Set to Development/Sandbox Environment (default).
+        // Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
+       $transaction = Transaction::create($request->all());
+
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
-                'gross_amount' => 10000,
+                'order_id' => $transaction->id,
+                'gross_amount' => 20000,
             ),
             'customer_details' => array(
-                'first_name' => auth()->user()->name,
+                'first_name' => $transaction->user->name,
                 'last_name' => '',
-                'email' => auth()->user()->email,
+                'email' => $transaction->user->email,
+                'phone' => $transaction->user->telp,
             ),
         );
 
@@ -48,17 +54,31 @@ class TransactionController extends Controller
     }
 
 
-    public function callbackMidtrans(Request $request)
+    public function callbackMidtrans(Request $request): void
     {
        $serverKey = config('midtrans.server_key');
        $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-         if ($hashed === $request->signature_key) {
-             if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
-                $transaction = Transaction::where('no_order', $request->order_id)->first();
-                $transaction->update([
-                    'payment_status' => 'success'
-                ]);
-             }
+       if ($hashed === $request->signature_key) {
+         if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
+             Transaction::find($request->order_id)->update([
+                'payment_status' => 'success',
+            ]);
          }
+
+         if ($request->transaction_status == 'cancel' ||
+           $request->transaction_status == 'deny' ||
+           $request->transaction_status == 'expire'){
+           Transaction::find($request->order_id)->update([
+               'payment_status' => $request->transaction_status,
+           ]);
+         }
+
+         if ($request->transaction_status == 'pending'){
+           Transaction::find($request->order_id)->update([
+               'payment_status' => $request->transaction_status,
+           ]);
+         }
+
+       }
     }
 }
