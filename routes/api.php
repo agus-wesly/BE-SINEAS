@@ -64,9 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
         ->group(function () {
             Route::get('transaction-success', 'transactionSuccess');
             Route::post('order', 'createOrder');
-            Route::post('midtrans-callback', 'callbackMidtrans');
         });
 });
+
+Route::post('midtrans-callback', [TransactionController::class, 'callbackMidtrans']);
 
 Route::get('genres', GenreController::class);
 
