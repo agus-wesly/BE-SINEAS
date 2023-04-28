@@ -60,12 +60,32 @@ class FilmController extends Controller
 
     public function filmRelated(Request $request): ?JsonResponse
     {
-//        try {
+        try {
             return $this->success('film related', $this->filmService->getRelatedFilm($request->all()));
-//        } catch (\Exception $e) {
-//            report($e);
-//            return $this->error('film not found', 400);
-//        }
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error('film not found', 400);
+        }
+    }
+
+    public function filmBeingWatched(Request $request): ?JsonResponse
+    {
+        try {
+            return $this->success('list film being Watched', $this->filmService->getFilmBeingWatched($request->all()));
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 400);
+        }
+    }
+
+    public function filmWatched(Request $request): ?JsonResponse
+    {
+        try {
+            return $this->success('list film Watched', $this->filmService->getFilmWatched($request->all()));
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error($e->getMessage(), 400);
+        }
     }
 
     public function search(Request $request): JsonResponse

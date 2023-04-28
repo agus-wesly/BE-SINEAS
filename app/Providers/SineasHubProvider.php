@@ -16,6 +16,8 @@ use App\Repository\Role\IRoleRepository;
 use App\Repository\Role\RoleRepository;
 use App\Repository\Tax\ITaxRepository;
 use App\Repository\Tax\TaxRepository;
+use App\Repository\Transaction\ITransactionRepository;
+use App\Repository\Transaction\TransactionRepository;
 use App\Repository\User\IUserRepository;
 use App\Repository\User\UserRepository;
 use App\Services\Banner\BannerService;
@@ -34,6 +36,8 @@ use App\Services\Socialite\ISocialiteService;
 use App\Services\Socialite\SocialiteService;
 use App\Services\Tax\ITaxService;
 use App\Services\Tax\TaxService;
+use App\Services\Transaction\ITransactionService;
+use App\Services\Transaction\TransactionService;
 use App\Services\User\IUserService;
 use App\Services\User\UserService;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -70,6 +74,9 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
         $this->app->singleton(IFilmSellingService::class, FilmSellingService::class);
         $this->app->singleton(IFIlmSellingRepository::class, FilmSellingRepository::class);
 
+        $this->app->singleton(ITransactionRepository::class, TransactionRepository::class);
+        $this->app->singleton(ITransactionService::class, TransactionService::class);
+
         $this->app->singleton(ISocialiteService::class, SocialiteService::class);
     }
 
@@ -92,6 +99,8 @@ class SineasHubProvider extends ServiceProvider implements DeferrableProvider
             IFilmSellingPriceRepository::class,
             IFilmSellingService::class,
             IFIlmSellingRepository::class,
+            ITransactionService::class,
+            ITransactionRepository::class,
             ISocialiteService::class,
         ];
     }
