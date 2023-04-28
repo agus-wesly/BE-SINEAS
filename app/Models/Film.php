@@ -44,6 +44,11 @@ class Film extends Model
         });
     }
 
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'id', 'film_id');
+    }
+
     public function gallery(): HasMany
     {
         return $this->hasMany(FilmGallery::class);

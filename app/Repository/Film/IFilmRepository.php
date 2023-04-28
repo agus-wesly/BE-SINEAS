@@ -26,6 +26,8 @@ interface IFilmRepository
     public function filmByGenre(FilmDto $dto);
     public function filmBySlug(string $slug, string $userId);
     public function relatedFilm(FilmDto $dto);
+    public function filmBeingWatched(PaginateDto $dto);
+    public function filmWatched(PaginateDto $dto);
     public function searchFilm(SearchFilmDto $dto);
     public function whislistFilm($film);
     public function getListWhislistFilm(PaginateDto $dto);

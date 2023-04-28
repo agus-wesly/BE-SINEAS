@@ -21,6 +21,8 @@ interface IFilmService
     public function getFilmByGenre(Request $request, string $slug): object;
     public function getFilmBySlug(string $slug, string $userId): FilmDetailResource;
     public function getRelatedFilm(array $request): object;
+    public function getFilmWatched(array $request): object;
+    public function getFilmBeingWatched(array $request);
     public function searchFilm(Request $request): object;
     public function whislistFilm(int $filmId): mixed;
     public function listWhislistFilm($request): mixed;

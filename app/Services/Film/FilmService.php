@@ -241,6 +241,36 @@ class FilmService implements IFilmService
         }
     }
 
+    public function getFilmWatched(array $request): object
+    {
+        try {
+            return $this->filmRepository->filmWatched(
+                PaginateDto::fromRequest($request)
+            );
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getFilmBeingWatched(array $request)
+    {
+        try {
+            return $this->filmRepository->filmBeingWatched(
+                PaginateDto::fromRequest($request)
+            );
+        } catch (\Exception $e)
+        {
+            report($e);
+            throw ValidationException::withMessages([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
 
     public function searchFilm(Request $request): object
     {
