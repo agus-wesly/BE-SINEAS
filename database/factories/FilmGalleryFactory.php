@@ -17,11 +17,7 @@ class FilmGalleryFactory extends Factory
     public function definition(): array
     {
 
-        do {
-            $filmId = \App\Models\Film::all()->random()->id;
-            $filmImage = \App\Models\FilmGallery::where('film_id', $filmId)->count();
-        } while ($filmImage < 2);
-
+        $filmId = \App\Models\Film::all()->random()->id;
 
         return [
             'film_id' => $filmId,
