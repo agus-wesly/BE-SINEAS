@@ -81,6 +81,6 @@ class Film extends Model
 
     public function wishlist(): HasMany
     {
-        return $this->hasMany(Whislist::class);
+        return $this->hasMany(wishlist::class);
     }
 }
