@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Services\Film\IFilmService;
+use App\Services\Tax\ITaxService;
 use App\Services\Transaction\ITransactionService;
 use App\Traits\ResponseAPI;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,7 +17,9 @@ class TransactionController extends Controller
     use ResponseAPI;
 
     public function __construct(
-        private readonly ITransactionService $transactionService
+        private readonly ITransactionService $transactionService,
+        private readonly IFilmService $filmService,
+        private readonly ITaxService $taxService
     ){}
 
     public function transactionSuccess(Request $request): JsonResponse
@@ -34,12 +39,26 @@ class TransactionController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
-       $transaction = Transaction::create($request->all());
+        $data = $request->all();
+        $film = $this->filmService->getFilmBySlug($data['film_id']);
+        $film = json_encode($film);
+        $film = json_decode($film);
+
+        $data['user_id'] = auth()->user()->id;
+        $data['film_id'] = $film->id;
+        $data['film_selling_id'] = $film->film_selling_id;
+        $data['tax'] = $this->taxService->getTaxRate();
+        $data['title_film'] = $film->title;
+        $data['total'] = $film->price;
+        $data['subtotal'] = $film->price + $this->taxService->getTaxRate();
+
+
+       $transaction = Transaction::create($data);
 
         $params = array(
             'transaction_details' => array(
                 'order_id' => $transaction->id,
-                'gross_amount' => 20000,
+                'gross_amount' => $data['subtotal'],
             ),
             'customer_details' => array(
                 'first_name' => $transaction->user->name,
@@ -62,6 +81,9 @@ class TransactionController extends Controller
          if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
              Transaction::find($request->order_id)->update([
                 'payment_status' => 'success',
+                 'payment_method' => $request->payment_type,
+                 'watch_expired_date' => Carbon::now()->addDays(7)
+
             ]);
          }
 
@@ -70,12 +92,14 @@ class TransactionController extends Controller
            $request->transaction_status == 'expire'){
            Transaction::find($request->order_id)->update([
                'payment_status' => $request->transaction_status,
+               'payment_method' => $request->payment_type,
            ]);
          }
 
          if ($request->transaction_status == 'pending'){
            Transaction::find($request->order_id)->update([
                'payment_status' => $request->transaction_status,
+               'payment_method' => $request->payment_type,
            ]);
          }
 
