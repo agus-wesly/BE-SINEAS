@@ -28,7 +28,7 @@ class Transaction extends Model
     /**
      * Boot function from Laravel.
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
         static::creating(function ($model) {
@@ -44,7 +44,7 @@ class Transaction extends Model
      *
      * @return bool
      */
-    public function getIncrementing()
+    public function getIncrementing(): bool
     {
         return false;
     }
@@ -54,7 +54,7 @@ class Transaction extends Model
      *
      * @return string
      */
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return 'string';
     }
@@ -64,7 +64,7 @@ class Transaction extends Model
      * @param int $limit
      * @return false|string
      */
-    public function uid($limit = 16)
+    public function uid($limit = 16): false|string
     {
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
