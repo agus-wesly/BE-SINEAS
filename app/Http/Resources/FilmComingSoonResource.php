@@ -26,6 +26,10 @@ class FilmComingSoonResource extends JsonResource
             'status' => $this?->filmSelling?->status,
 //            'gallery' => FilmGalleryResource::collection($this?->gallery),
             'created_at' => $this?->created_at,
+            'genre' => $this->whenLoaded('filmGenre', function () {
+                return $this->filmGenre->pluck('name');
+            }),
+
         ];
         if ($this?->gallery->count() > 0) {
             $data['image'] = FilmGalleryResource::collection($this?->gallery);

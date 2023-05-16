@@ -29,7 +29,12 @@ class FilmRepository implements IFilmRepository
 
     public function getFilmById(int $id)
     {
-        return $this->film->with(['information','actors'])->findOrFail($id);
+        return $this->film->with([
+            'information',
+            'actors',
+            'filmSelling',
+            'filmGenre:name',
+        ])->findOrFail($id);
     }
 
     public function createFilm(array $data)
@@ -88,7 +93,7 @@ class FilmRepository implements IFilmRepository
     public function FilmPopuler($request)
     {
         return $this->film
-                ->with('gallery')
+                ->with(['gallery', 'filmGenre'])
                 ->withCount('filmView')
                 ->orderByDesc('film_view_count')
                 ->paginate($request->per_page?? 10, page: $request->page?? 1);
@@ -97,24 +102,28 @@ class FilmRepository implements IFilmRepository
     public function FilmTerbaru($request)
     {
         return $this->film
-            ->with('gallery')
+            ->with([
+                'gallery',
+                'filmGenre:name',
+            ])
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
-    public function FilmComingsoon($request): array
+    public function FilmComingsoon($request)
     {
         $film = $this->film
-            ->with(['filmSelling', 'gallery'])
+            ->with(['filmSelling', 'gallery', 'filmGenre'])
             ->whereHas('filmSelling', function ($query) {
                 $query->where('status', 'comingsoon');
             })->paginate($request->per_page?? 10, page: $request->page?? 1);
+//        return $film;
         return [FilmComingSoonResource::collection($film), $film];
     }
 
     public function filmByGenre(FilmDto $dto): object
     {
         return $this->film
-            ->with(['gallery', 'filmGenre:name'])
+            ->with(['gallery', 'filmGenre:name', 'filmGenre'])
             ->whereHas('filmGenre', function ($query) use ($dto) {
                 $query->whereSlug($dto->genre);
             })
@@ -124,7 +133,7 @@ class FilmRepository implements IFilmRepository
     public function filmBySlug(string $slug, string $userId = null)
     {
         $film = $this->film
-            ->with(['information', 'actors','gallery', 'filmGenre:name', 'filmView'])
+            ->with(['information', 'actors','gallery', 'filmGenre:name', 'filmView', 'filmSelling'])
             ->where('slug', $slug)
             ->firstOrFail();
 
@@ -142,7 +151,7 @@ class FilmRepository implements IFilmRepository
     public function relatedFilm(FilmDto $dto)
     {
         return $this->film
-            ->with('gallery')
+            ->with('gallery', 'filmGenre')
             ->whereHas('filmGenre', function ($query) use ($dto) {
                 $query->whereName($dto->genre);
             })
@@ -179,15 +188,17 @@ class FilmRepository implements IFilmRepository
     {
         $search = $this->film->search($dto->search);
         $search = $search->tap(function (Builder $search) use ($dto) {
-            if ($dto->new){
-                $search->orderBy('created_at', 'desc');
+            if (!$dto->new) {
+                return;
             }
+            $search->orderBy('created_at', 'desc');
         });
 
         $search = $search->tap(function (Builder $search) use ($dto) {
-            if ($dto->sort){
-                $search->orderBy('title', 'desc');
+            if (!$dto->sort) {
+                return;
             }
+            $search->orderBy('title', 'desc');
         });
 
         return $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
@@ -196,19 +207,16 @@ class FilmRepository implements IFilmRepository
     public function whislistFilm($film)
     {
         $userWishlist = $film->wishlist()->where('user_id', auth()->id())->first();
-        if (isset($userWishlist)){
-            return $userWishlist->delete();
-        }
-
-        return $film->wishlist()->create([
+        return isset($userWishlist) ? $userWishlist->delete() : $film->wishlist()->create([
             'user_id' => auth()->id()
         ]);
+
     }
 
     public function getListWhislistFilm(PaginateDto $dto)
     {
         return $this->film
-            ->with('gallery')
+            ->with('gallery', 'filmGenre')
             ->whereHas('wishlist', function ($query) {
                 $query->where('user_id', auth()->id());
             })

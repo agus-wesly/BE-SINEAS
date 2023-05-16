@@ -101,11 +101,11 @@ class FilmController extends Controller
             report($e);
             return $this->error('film not found', 400);
         }
-        return $this->success('list film by whislist', $whistlist);
+        return $this->success('list film by wishlist', $whistlist);
     }
 
     public function whislistList(Request $request): JsonResponse
     {
-        return $this->success('list film by whislist', $this->filmService->listWhislistFilm($request->all()));
+        return $this->success('list film by wishlist', $this->filmService->listWhislistFilm($request->all()));
     }
 }

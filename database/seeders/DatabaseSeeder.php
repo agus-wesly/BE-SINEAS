@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             FilmViewSeeder::class,
             FilmImageSeeder::class,
             BannerSeeder::class,
+            FilmGenreSeeder::class,
         ]);
     }
 }
