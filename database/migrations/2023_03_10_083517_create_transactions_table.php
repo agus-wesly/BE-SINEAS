@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->unique();
-            $table->string('payment_status');
-            $table->string('payment_method');
-            $table->date('payment_date');
-            $table->date('watch_expired_date');
+            $table->string('payment_status')->default('pending');
+            $table->string('payment_method')->nullable();
+            $table->date('payment_date')->default(now());
+            $table->date('watch_expired_date')->nullable();
             $table->string('title_film');
             $table->foreignUuid('user_id')->constrained('users');
             $table->foreignId('film_id')->constrained('films');
@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->integer('total');
             $table->integer('tax');
             $table->integer('subtotal');
-            $table->date('transaction_date');
+            $table->date('transaction_date')->default(now());
             $table->timestamps();
         });
     }

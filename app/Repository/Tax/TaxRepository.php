@@ -18,7 +18,7 @@ class TaxRepository implements ITaxRepository
     }
     public function getTaxRate(): int|float
     {
-        return $this->tax->firstOrFail()->price;
+        return $this->tax->latest()->first()->price;
     }
 
     public function getTaxAmountWithRate($amount, $rate): int|float
