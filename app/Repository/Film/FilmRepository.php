@@ -140,6 +140,8 @@ class FilmRepository implements IFilmRepository
         if ($userId){
            $film->load(['wishlist' => function ($query) use ($userId) {
                $query->where('user_id', $userId);
+           }, 'transaction' => function ($query) use ($userId) {
+               $query->where('user_id', $userId);
            }]);
         }
 
@@ -168,11 +170,14 @@ class FilmRepository implements IFilmRepository
                 ->where('payment_status', 'success')
                 ->where('watch_expired_date', '>=', Carbon::now());
         })
-        ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+            ->get();
+//        ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
 
     public function filmWatched(PaginateDto $dto)
     {
+
+//        dd(auth()->user()->id);
         return $this->film
             ->with(['gallery','transaction:film_id,watch_expired_date'])
             ->whereHas('transaction', function ($query) {
@@ -186,7 +191,10 @@ class FilmRepository implements IFilmRepository
 
     public function searchFilm(SearchFilmDto $dto): object
     {
-        $search = $this->film->search($dto->search);
+        $search = $this->film->search($dto->search)->query(function ($query) {
+            $query->with(['gallery', 'filmGenre:name']);
+        });
+
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->new) {
                 return;
@@ -200,6 +208,7 @@ class FilmRepository implements IFilmRepository
             }
             $search->orderBy('title', 'desc');
         });
+
 
         return $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
