@@ -21,8 +21,8 @@ class FilmFactory extends Factory
             'desc' => fake()->text(),
             'date' => fake()->date(),
             'duration' => fake()->time(),
-            'url_film' => "https://iframe.mediadelivery.net/embed/110856/4e31983f-20f4-44dc-954a-edb1ce9b50bd?autoplay=true&preload=true",
-            'url_trailer' => "https://iframe.mediadelivery.net/embed/110856/4e31983f-20f4-44dc-954a-edb1ce9b50bd?autoplay=true&preload=true",
+            'url_film' => "4e31983f-20f4-44dc-954a-edb1ce9b50bd",
+            'url_trailer' => "4e31983f-20f4-44dc-954a-edb1ce9b50bd",
             'slug' => fake()->slug(),
         ];
     }
