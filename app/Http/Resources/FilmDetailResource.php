@@ -19,7 +19,6 @@ class FilmDetailResource extends JsonResource
             'title' => $this?->title,
             'slug' => $this?->slug,
             'description' => $this?->desc,
-
             'url_trailer' => $this?->url_trailer,
             'duration' => $this?->duration,
             'date' => $this?->date,

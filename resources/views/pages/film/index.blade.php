@@ -30,12 +30,6 @@
                                 {{ trans('cruds.film.fields.description') }}
                             </th>
                             <th>
-                                {{ trans('cruds.film.fields.url_trailer') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.film.fields.url_film') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.film.fields.film_date') }}
                             </th>
                             <th class="text-center">
@@ -57,12 +51,6 @@
                                 </td>
                                 <td>
                                     {{ Str::limit($film->desc, 40) ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->url_trailer ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $film->url_film ?? '' }}
                                 </td>
                                 <td>
                                     {{ $film->date ?? '' }}
@@ -94,9 +82,6 @@
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             $.extend(true, $.fn.dataTable.defaults, {
                 orderCellsTop: true,
-                order: [
-                    [1, 'desc']
-                ],
                 pageLength: 100,
             });
             let table = $('.datatable-User:not(.ajaxTable)').DataTable({

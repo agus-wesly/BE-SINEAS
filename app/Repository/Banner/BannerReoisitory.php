@@ -21,9 +21,19 @@ class BannerReoisitory implements IBannerRepository
     public function getAll(string $status = null): object
     {
         if ($status) {
-            return BannerResource::collection($this->banner->where('status', $status)->toBase()->get());
+            return BannerResource::collection(
+                $this->banner->where('status', $status)
+                    ->orderByDesc('expired_date')
+                    ->toBase()
+                    ->get()
+            );
         }
-        return BannerResource::collection($this->banner->toBase()->get());
+        return BannerResource::collection(
+            $this->banner
+                ->orderByDesc('expired_date')
+                ->toBase()
+                ->get()
+        );
     }
 
     public function getById(int $id): Banner
