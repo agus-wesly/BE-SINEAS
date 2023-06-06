@@ -11,9 +11,9 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::orderByDesc('created_at')->get();
         return view('pages.transaction.index', compact('transactions'));
     }
 

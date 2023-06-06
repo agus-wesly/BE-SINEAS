@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->string('desc');
+            $table->text('desc');
             $table->string('url_film');
             $table->string('url_trailer');
             $table->date('date');

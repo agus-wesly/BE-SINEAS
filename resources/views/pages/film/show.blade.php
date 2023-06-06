@@ -3,11 +3,6 @@
 
     <div class="card-body">
         <div class="form-group">
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('movie.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
             <table class="table table-bordered table-striped">
                 <tbody>
                 <tr>
@@ -118,6 +113,35 @@
                     </table>
 
                 </tr>
+                    <tr>
+                        <table class="table table-bordered table-striped">
+                            <tr class="text-center">
+                                <th>
+                                    {{trans('global.thumbnail')}}
+                                </th><th>
+                                    {{trans('global.background')}}
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @if(isset($film?->gallery[0]))
+                                        <a href="{{ Storage::url($film->gallery[0]->images) }}">
+                                            <img src="{{ Storage::url($film->gallery[0]->images) }}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($film?->gallery[1])))
+                                        <a href="{{ Storage::url($film->gallery[1]->images) }}">
+                                            <img src="{{ Storage::url($film->gallery[1]->images) }}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        </a>
+                                    @endif
+
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

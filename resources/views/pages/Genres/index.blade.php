@@ -23,12 +23,12 @@
                             <th>
                                 {{ trans('global.name') }}
                             </th>
-                            <th>
-                                {{ trans('global.description') }}
-                            </th>
-                            <th>
-                                {{ trans('global.image') }}
-                            </th>
+{{--                            <th>--}}
+{{--                                {{ trans('global.description') }}--}}
+{{--                            </th>--}}
+{{--                            <th>--}}
+{{--                                {{ trans('global.image') }}--}}
+{{--                            </th>--}}
                             <th class="text-center">
                                 Aksi
                             </th>
@@ -43,14 +43,14 @@
                                 <td>
                                     {{ $genre?->name }}
                                 </td>
-                                <td>
-                                    {{ $genre?->description }}
-                                </td>
-                                <td class="text-center">
-                                        <a href="{{ asset('storage/'.$genre->image) }}" target="_blank" style="display: inline-block">
-                                            <img class="img" src="{{ asset('storage/'.$genre->image) }}" width="200px" alt="">
-                                        </a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    {{ $genre?->description }}--}}
+{{--                                </td>--}}
+{{--                                <td class="text-center">--}}
+{{--                                        <a href="{{ asset('storage/'.$genre->image) }}" target="_blank" style="display: inline-block">--}}
+{{--                                            <img class="img" src="{{ asset('storage/'.$genre->image) }}" width="200px" alt="">--}}
+{{--                                        </a>--}}
+{{--                                </td>--}}
                                 <td class="d-flex justify-content-center">
                                     <a class="btn btn-xs btn-info"
                                         href="{{ route('genre.edit', $genre->id) }}">

@@ -23,6 +23,7 @@ return [
     'dc' => 'Distribusi Center',
     'harga_total' => 'Harga Total',
     "thumbnail" => 'Thumbnail',
+    "background" => 'Background',
     'kode_referral' => 'Kode Referral',
     'ktp' => 'Ktp',
     'add' => 'Add',

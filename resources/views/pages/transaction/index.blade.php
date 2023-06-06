@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+            {{ trans('cruds.transaction.title_singular') }} {{ trans('global.list') }}
         </div>
 
         <div class="card-body">
@@ -37,55 +37,40 @@
                             <th>
                                 {{ trans('cruds.transaction.fields.subtotal') }}
                             </th>
-                            <th class="text-center">
-                                Aksi
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-{{--                        @foreach ($transactions as $key => $transaction)--}}
-{{--                            <tr data-entry-id="{{ $transaction->id }}">--}}
-{{--                                <td>--}}
+                        @foreach ($transactions as $key => $transaction)
+                            <tr data-entry-id="{{ $transaction->id }}">
+                                <td>
 
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->id }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->user?->name }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->code }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->title_film }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->payment_method }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->payment_status }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->tax }}--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    {{ $transaction?->subtotal }}--}}
-{{--                                </td>--}}
-{{--                                <td class="d-flex justify-content-center">--}}
-{{--                                        <a class="btn btn-xs btn-primary mr-2"--}}
-{{--                                            href="{{ route('transaction.show', $transaction->id) }}">--}}
-{{--                                            {{ trans('global.view') }}--}}
-{{--                                        </a>--}}
-
-{{--                                        <a class="btn btn-xs btn-info"--}}
-{{--                                            href="{{ route('transaction.edit', $transaction->id) }}">--}}
-{{--                                            {{ trans('global.edit') }}--}}
-{{--                                        </a>--}}
-{{--                                </td>--}}
-
-{{--                            </tr>--}}
-{{--                        @endforeach--}}
+                                </td>
+                                <td>
+                                    {{ $transaction?->id }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->user?->name }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->code }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->title_film }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->payment_method }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->payment_status }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->tax }}
+                                </td>
+                                <td>
+                                    {{ $transaction?->subtotal }}
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -99,9 +84,6 @@
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             $.extend(true, $.fn.dataTable.defaults, {
                 orderCellsTop: true,
-                order: [
-                    [1, 'desc']
-                ],
                 pageLength: 100,
             });
             let table = $('.datatable-User:not(.ajaxTable)').DataTable({

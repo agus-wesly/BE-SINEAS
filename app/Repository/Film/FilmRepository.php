@@ -24,6 +24,7 @@ class FilmRepository implements IFilmRepository
     {
         return $this->film
                     ->with('gallery')
+                    ->orderBy("date", "desc")
                     ->get();
     }
 
@@ -33,7 +34,8 @@ class FilmRepository implements IFilmRepository
             'information',
             'actors',
             'filmSelling',
-            'filmGenre:name',
+            'filmGenre',
+            'gallery'
         ])->findOrFail($id);
     }
 
@@ -47,10 +49,22 @@ class FilmRepository implements IFilmRepository
         $film->information()->createMany($data);
     }
 
+    public function removeFilmDetail(Film $film)
+    {
+        $film->information()->delete();
+    }
+
+
     public function addFilmGenre(Film $film, array $data)
     {
         $film->filmGenre()->attach($data);
     }
+
+    public function removeFilmGenre(Film $film)
+    {
+        $film->filmGenre()->detach();
+    }
+
 
     public function addImageFilm(Film $film, array $data)
     {
@@ -64,11 +78,22 @@ class FilmRepository implements IFilmRepository
         }, $data['name']);
     }
 
+    public function removeImageFilm(Film $film)
+    {
+        $film->gallery()->delete();
+    }
+
 
     public function createActorFilm(Film $film, string $name)
     {
         $film->actors()->create(['name' => $name]);
     }
+
+    public function removeActorFilm(Film $film)
+    {
+        $film->actors()->delete();
+    }
+
 
     public function createImageFilm(array $data)
     {
@@ -93,8 +118,11 @@ class FilmRepository implements IFilmRepository
     public function FilmPopuler($request)
     {
         return $this->film
-                ->with(['gallery', 'filmGenre'])
+                ->with(['gallery', 'filmGenre', 'filmSelling'])
                 ->withCount('filmView')
+                ->whereHas('filmSelling', function ($query) {
+                    $query->where('status', 'active');
+                })
                 ->orderByDesc('film_view_count')
                 ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
@@ -105,7 +133,11 @@ class FilmRepository implements IFilmRepository
             ->with([
                 'gallery',
                 'filmGenre:name',
+                'filmSelling'
             ])
+            ->whereHas('filmSelling', function ($query) {
+                $query->where('status', 'active');
+            })
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
     }
@@ -123,9 +155,12 @@ class FilmRepository implements IFilmRepository
     public function filmByGenre(FilmDto $dto): object
     {
         return $this->film
-            ->with(['gallery', 'filmGenre:name', 'filmGenre'])
+            ->with(['gallery', 'filmGenre:name', 'filmGenre','filmSelling'])
             ->whereHas('filmGenre', function ($query) use ($dto) {
                 $query->whereSlug($dto->genre);
+            })
+            ->whereHas('filmSelling', function ($query) {
+                $query->where('status', 'active');
             })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
@@ -153,9 +188,12 @@ class FilmRepository implements IFilmRepository
     public function relatedFilm(FilmDto $dto)
     {
         return $this->film
-            ->with('gallery', 'filmGenre')
+            ->with(['gallery', 'filmGenre', 'filmSelling'])
             ->whereHas('filmGenre', function ($query) use ($dto) {
                 $query->whereName($dto->genre);
+            })
+            ->whereHas('filmSelling', function ($query) {
+                $query->where('status', 'active');
             })
             ->where('id', '!=', $dto->filmId)
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);

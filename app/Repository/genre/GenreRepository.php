@@ -16,7 +16,9 @@ class GenreRepository implements IGenreRepository
 
     public function getAllGenres(): object
     {
-        return GenreResource::collection($this->genre->all());
+        return GenreResource::collection(
+            $this->genre->orderByDesc('created_at')->get()
+        );
     }
 
     public function getGenreWithPluck(): Genre
