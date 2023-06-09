@@ -27,7 +27,7 @@ jobs:
           script_stop: true
           script: |
             eval "$(ssh-agent -s)"
-            ssh-add .ssh/id_rsa
+            ssh-add .ssh/id_ed25519-2
             cd public_html/sineasmov_prod/backend
             php artisan down
             git stash
@@ -59,7 +59,7 @@ jobs:
           script_stop: true
           script: |
             eval "$(ssh-agent -s)"
-            ssh-add .ssh/id_rsa
+            ssh-add .ssh/id_ed25519-2
             cd public_html/sineasmov_backend_dev
             php artisan down
             git stash
