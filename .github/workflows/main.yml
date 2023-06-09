@@ -19,16 +19,16 @@ jobs:
       - name: Deploy to production with SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.PROD_SSH_HOST }}
-          username: ${{ secrets.PROD_SSH_USERNAME }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          port: ${{ secrets.PROD_SSH_PORT }}
-          passphrase: ${{ secrets.PROD_SSH_PASSPHRASE }}
+          host: ${{ secrets.DEV_SSH_HOST }}
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          passphrase: ${{ secrets.DEV_SSH_PASSPHRASE }}
           script_stop: true
           script: |
             eval "$(ssh-agent -s)"
             ssh-add .ssh/id_rsa
-            cd public_html/sineasmov_backend_prod
+            cd public_html/sineasmov_prod/backend
             php artisan down
             git stash
             git checkout production
