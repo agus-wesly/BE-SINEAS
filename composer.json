@@ -1,6 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "sinasmov_backend",
     "type": "project",
+    "version": "1.1.0",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
