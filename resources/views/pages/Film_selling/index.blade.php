@@ -20,9 +20,9 @@
                             <th width="10">
 
                             </th>
-                            <th>
-                                {{ trans('cruds.filmSelling.fields.name') }}
-                            </th>
+{{--                            <th>--}}
+{{--                                {{ trans('cruds.filmSelling.fields.name') }}--}}
+{{--                            </th>--}}
                             <th>
                                 {{ trans('cruds.filmSelling.fields.id_film') }}
                             </th>
@@ -49,9 +49,9 @@
                                 <td>
 
                                 </td>
-                                <td>
-                                    {{ $filmSelling?->name }}
-                                </td>
+{{--                                <td>--}}
+{{--                                    {{ $filmSelling?->name }}--}}
+{{--                                </td>--}}
                                 <td>
                                     {{ $filmSelling?->film?->title }}
                                 </td>

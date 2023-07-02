@@ -13,9 +13,13 @@ interface IFilmRepository
     public function getFilmById(int $id);
     public function createFilm(array $data);
     public function createFilmDetail(Film $film, array $data);
+    public function removeFilmDetail(Film $film);
     public function addFilmGenre(Film $film, array $data);
+    public function removeFilmGenre(Film $film);
     public function addImageFilm(Film $film, array $data);
+    public function removeImageFilm(Film $film);
     public function createActorFilm(Film $film, string $name);
+    public function removeActorFilm(Film $film);
     public function createImageFilm(array $data);
     public function updateFilm(array $data, Film $film);
     public function deleteFilm(int $id);

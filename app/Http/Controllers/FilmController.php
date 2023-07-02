@@ -25,9 +25,10 @@ class FilmController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
         $films = $this->filmService->getAllFilm();
+
         return view('pages.film.index', compact('films'));
     }
 
@@ -61,10 +62,11 @@ class FilmController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(string $id)
     {
+        $genres = Genre::pluck('name', 'id');
        $film = $this->filmService->getFilmById($id);
-        return view('pages.film.edit', compact('film'));
+        return view('pages.film.edit', compact(['film', 'genres']));
     }
 
     /**

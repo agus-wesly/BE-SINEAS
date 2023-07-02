@@ -91,13 +91,37 @@ class FilmService implements IFilmService
         }
     }
 
-    public function updateFilm(array $data, int $filmId): bool|null
+    public function updateFilm(array $data, int $filmId): mixed
     {
         try {
             $film = $this->filmRepository->getFilmById($filmId);
-            return $this->filmRepository->updateFilm($data, $film);
+            \DB::beginTransaction();
+            $this->filmRepository->updateFilm($data, $film);
+            $this->filmRepository->removeFilmGenre($film);
+            $this->filmRepository->addFilmGenre($film, $data['genre_id']);
+
+            if (isset($data['information'])) {
+                $this->filmRepository->removeFilmDetail($film);
+                $this->filmRepository->createFilmDetail($film, $data['information']);
+            }
+
+
+
+            if (isset($data['images'])) {
+                $this->filmRepository->removeImageFilm($film);
+                $this->filmRepository->addImageFilm($film, $data['images']);
+            }
+
+            if (isset($data['actor'])) {
+                $this->filmRepository->removeActorFilm($film);
+                array_map(function ($actor) use ($film) {
+                    $this->filmRepository->createActorFilm($film, $actor);
+                }, $data['actor']);
+            }
+            \DB::commit();
         } catch (\Exception $e) {
             report($e);
+            \DB::rollBack();
             throw ValidationException::withMessages([
                 'error' => 'server error'
             ]);

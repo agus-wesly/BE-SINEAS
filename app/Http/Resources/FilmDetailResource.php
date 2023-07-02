@@ -19,14 +19,15 @@ class FilmDetailResource extends JsonResource
             'title' => $this?->title,
             'slug' => $this?->slug,
             'description' => $this?->desc,
-
             'url_trailer' => $this?->url_trailer,
             'duration' => $this?->duration,
             'date' => $this?->date,
             'status' => $this?->filmSelling?->status,
             'price' => $this?->filmSelling?->sellingPrice?->price,
             'film_selling_id' => $this?->filmSelling?->id,
-            'gallery' => $this->whenLoaded('gallery'),
+            'gallery' => $this->whenLoaded('gallery' , function () {
+                return FilmGalleryResource::collection($this->gallery);
+            }),
             'view' => $this->whenLoaded('filmView', function () {
                 return $this->filmView->count();
             }),

@@ -24,15 +24,6 @@
                                 {{ trans('global.name') }}
                             </th>
                             <th>
-                                {{ trans('global.description') }}
-                            </th>
-                            <th>
-                                {{ trans('global.image') }}
-                            </th>
-                            <th>
-                                {{ trans('global.url') }}
-                            </th>
-                            <th>
                                 {{ trans('global.expired_date') }}
                             </th>
                             <th>
@@ -51,15 +42,6 @@
                                 </td>
                                 <td>
                                     {{ $banner?->title }}
-                                </td>
-                                <td>
-                                    {{ \Illuminate\Support\Str::limit($banner?->description, 40) }}
-                                </td>
-                                <td>
-                                    {{ $banner?->image }}
-                                </td>
-                                <td>
-                                    {{ $banner?->url_link }}
                                 </td>
                                 <td>
                                     {{ $banner?->expired_date}}
@@ -96,9 +78,6 @@
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             $.extend(true, $.fn.dataTable.defaults, {
                 orderCellsTop: true,
-                order: [
-                    [1, 'desc']
-                ],
                 pageLength: 100,
             });
             let table = $('.datatable-Role:not(.ajaxTable)').DataTable({

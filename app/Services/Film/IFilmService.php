@@ -11,7 +11,7 @@ interface IFilmService
     public function getAllFilm(): object;
     public function getFilmById(int $id): Film;
     public function addFilm(Request $request);
-    public function updateFilm(array $data, int $filmId): bool|null;
+    public function updateFilm(array $data, int $filmId): mixed;
     public function deleteFilm(int $id): bool|null;
     public function addImageToFilm(array $data, int $filmId): bool|null;
     public function deleteImageFromFilm(int $filmId): bool|null;
