@@ -117,7 +117,8 @@ class FilmRepository implements IFilmRepository
 
     public function FilmPopuler($request)
     {
-        return $this->film
+        
+        $films = $this->film
                 ->with(['gallery', 'filmGenre', 'filmSelling'])
                 ->withCount('filmView')
                 ->whereHas('filmSelling', function ($query) {
@@ -125,11 +126,23 @@ class FilmRepository implements IFilmRepository
                 })
                 ->orderByDesc('film_view_count')
                 ->paginate($request->per_page?? 10, page: $request->page?? 1);
+
+    $films->getCollection()->transform(function ($film) {
+        //tambahkan path gambar
+        $film->gallery->transform(function ($gallery) {
+            $gallery->images = url('storage/' . $gallery->images);
+            return $gallery;
+        });
+
+        return $film;
+    });
+
+ return $films;
     }
 
     public function FilmTerbaru($request)
     {
-        return $this->film
+        $films = $this->film
             ->with([
                 'gallery',
                 'filmGenre:name',
@@ -140,6 +153,17 @@ class FilmRepository implements IFilmRepository
             })
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
+
+            //tambahkan path gambar
+            $films->getCollection()->transform(function ($film) {
+                $film->gallery->transform(function ($gallery) {
+                    $gallery->images = url('storage/' . $gallery->images);
+                    return $gallery;
+                });
+                return $film;
+            });
+
+            return $films;
     }
     public function FilmComingsoon($request)
     {
@@ -154,15 +178,27 @@ class FilmRepository implements IFilmRepository
 
     public function filmByGenre(FilmDto $dto): object
     {
-        return $this->film
-            ->with(['gallery', 'filmGenre:name', 'filmGenre','filmSelling'])
-            ->whereHas('filmGenre', function ($query) use ($dto) {
-                $query->whereSlug($dto->genre);
-            })
-            ->whereHas('filmSelling', function ($query) {
-                $query->where('status', 'active');
-            })
-            ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+        $films = $this->film
+        ->with(['gallery', 'filmGenre:name', 'filmGenre','filmSelling'])
+        ->whereHas('filmGenre', function ($query) use ($dto) {
+            $query->whereSlug($dto->genre);
+        })
+        ->whereHas('filmSelling', function ($query) {
+            $query->where('status', 'active');
+        })
+        ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+
+        $films->getCollection()->transform(function ($film) {
+        // Tambahkan prefix path ke setiap gambar di galeri
+        $film->gallery->transform(function ($gallery) {
+            $gallery->images = url('storage/') . '/' . $gallery->images;
+            return $gallery;
+        });
+
+        return $film;
+        });
+
+        return $films;
     }
 
     public function filmBySlug(string $slug, string $userId = null)
@@ -232,23 +268,34 @@ class FilmRepository implements IFilmRepository
         $search = $this->film->search($dto->search)->query(function ($query) {
             $query->with(['gallery', 'filmGenre:name']);
         });
-
+        
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->new) {
                 return;
             }
             $search->orderBy('created_at', 'desc');
         });
-
+        
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->sort) {
                 return;
             }
             $search->orderBy('title', 'desc');
         });
-
-
-        return $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+        
+        $films = $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+        
+        $films->getCollection()->transform(function ($film) {
+            // Tambahkan prefix path ke setiap gambar di galeri
+            $film->gallery->transform(function ($gallery) {
+                $gallery->images = url('storage/' . $gallery->images);
+                return $gallery;
+            });
+        
+            return $film;
+        });
+        
+        return $films;
     }
 
     public function whislistFilm($film)

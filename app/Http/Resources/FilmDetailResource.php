@@ -25,7 +25,9 @@ class FilmDetailResource extends JsonResource
             'status' => $this?->filmSelling?->status,
             'price' => $this?->filmSelling?->sellingPrice?->price,
             'film_selling_id' => $this?->filmSelling?->id,
-            'gallery' => $this->whenLoaded('gallery'),
+            'gallery' => $this->whenLoaded('gallery' , function () {
+                return FilmGalleryResource::collection($this->gallery);
+            }),
             'view' => $this->whenLoaded('filmView', function () {
                 return $this->filmView->count();
             }),

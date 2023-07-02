@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Google\Service\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,8 +17,10 @@ class BannerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => \Storage::url($this->image),
+            'image' => url('storage/' . $this->image),
             'expired_date' => $this->expired_date,
+            'description' => empty($this->description) ? '-' : $this->description,
+            'url_link' => empty($this->url_link) ? '-' : $this->url_link,
             'status' => $this->status,
         ];
     }

@@ -57,6 +57,7 @@ Route::controller(FilmController::class)
         Route::get('genres/{slug}', 'listFilmByGenre');
         Route::post('wishlist/{filmId}', 'whislistStore')->middleware('auth:sanctum');
         Route::get('wishlist', 'whislistList')->middleware('auth:sanctum');
+        Route::get('tax' , 'getTax');
     });
 
 Route::middleware('auth:sanctum')->group(function () {

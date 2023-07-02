@@ -8,6 +8,7 @@ use App\Services\User\IUserService;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\Tax;
 
 class FilmController extends Controller
 {
@@ -25,6 +26,12 @@ class FilmController extends Controller
         $this->userService = $userService;
     }
 
+    public function getTax()
+    {
+      
+        $tax = Tax::orderBy('created_at', 'desc')->first();
+        return $this->success('tax price', $tax);
+    }
 
     public function filmPopuler(Request $request): JsonResponse
     {

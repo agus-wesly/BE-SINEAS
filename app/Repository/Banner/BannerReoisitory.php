@@ -4,6 +4,7 @@ namespace App\Repository\Banner;
 
 use App\Http\Resources\BannerResource;
 use App\Models\Banner;
+use Carbon\Carbon;
 
 class BannerReoisitory implements IBannerRepository
 {
@@ -20,9 +21,12 @@ class BannerReoisitory implements IBannerRepository
 
     public function getAll(string $status = null): object
     {
+        $currentDate = Carbon::now();
+
         if ($status) {
             return BannerResource::collection(
                 $this->banner->where('status', $status)
+                    ->whereDate('expired_date', '>', $currentDate)
                     ->orderByDesc('expired_date')
                     ->toBase()
                     ->get()
