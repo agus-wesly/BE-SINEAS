@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\genre;
+namespace App\Repository\Genre;
 
 use App\Http\Resources\GenreResource;
 use App\Models\Genre;

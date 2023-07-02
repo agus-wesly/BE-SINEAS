@@ -59,7 +59,7 @@ class FilmSellingPriceController extends Controller
     public function edit(string $id): View
     {
         $filmSellingPrice = $this->filmSellingPriceService->getFilmSellingPriceById($id);
-        return view('pages.Film_selling_price.edit', compact('filmSellingPrice'));
+        return view('pages.Film_selling_price.edit', $filmSellingPrice);
     }
 
     /**

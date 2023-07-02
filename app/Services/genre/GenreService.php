@@ -2,7 +2,7 @@
 
 namespace App\Services\Genre;
 
-use App\Repository\genre\IGenreRepository;
+use App\Repository\Genre\IGenreRepository;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
