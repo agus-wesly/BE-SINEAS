@@ -29,7 +29,7 @@ class TaxController extends Controller
      */
     public function create(): View
     {
-        return view('pages.tax.create');
+        return view('pages.Tax.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class TaxController extends Controller
     public function edit(string $id): View
     {
         $tax = $this->taxService->getTaxById($id);
-        return view('pages.tax.edit', compact('tax'));
+        return view('pages.Tax.edit', compact('tax'));
     }
 
     /**

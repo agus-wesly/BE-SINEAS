@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\genre;
+namespace App\Services\Genre;
 
 use App\Repository\genre\IGenreRepository;
 use Illuminate\Http\Request;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\genre\IGenreService;
+use App\Services\Genre\IGenreService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

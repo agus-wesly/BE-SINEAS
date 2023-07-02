@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\genre\IGenreService;
+use App\Services\Genre\IGenreService;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\Request;
 

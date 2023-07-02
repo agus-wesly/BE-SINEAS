@@ -34,7 +34,7 @@ class FilmSellingController extends Controller
     public function index(): View
     {
         $filmSellings = $this->filmSellingService->getAllFilmSelling();
-        return view('pages.film_selling.index', compact('filmSellings'));
+        return view('pages.Film_selling.index', compact('filmSellings'));
     }
 
     /**
@@ -44,7 +44,7 @@ class FilmSellingController extends Controller
     {
         $films = $this->filmService->getAllFilm();
         $filmSellingPrices = $this->filmSellingPriceService->getAllFilmSellingPrice();
-        return view('pages.film_selling.create', compact(['films', 'filmSellingPrices']));
+        return view('pages.Film_selling.create', compact(['films', 'filmSellingPrices']));
     }
 
     /**
@@ -70,7 +70,7 @@ class FilmSellingController extends Controller
     public function edit(string $id): View
     {
         $filmSelling = $this->filmSellingService->getFilmSellingById($id);
-        return view('pages.film_selling.edit', compact('filmSelling'));
+        return view('pages.Film_selling.edit', compact('filmSelling'));
     }
 
     /**
