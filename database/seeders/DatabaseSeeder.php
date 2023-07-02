@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesTableSeeder::class,
             UserSeeder::class,
-            GenreTableSeeder::class,
+            // GenreTableSeeder::class,
             // FilmTableSeeder::class,
             // FilmSellingPriceSeeder::class,
             // FilmSellingSeeder::class,
