@@ -70,6 +70,7 @@ class FilmSellingController extends Controller
     public function edit(string $id): View
     {
         $filmSelling = $this->filmSellingService->getFilmSellingById($id);
+
         return view('pages.Film_selling.edit', compact('filmSelling'));
     }
 

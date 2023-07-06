@@ -237,40 +237,69 @@ class FilmRepository implements IFilmRepository
             ->where('id', '!=', $dto->filmId)
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
     }
-
     public function filmBeingWatched(PaginateDto $dto)
     {
-        return $this->film
-        ->with(['gallery','transaction:film_id,watch_expired_date'])
-        ->withWhereHas('transaction', function ($query) {
-            $query->where('user_id', auth()->user()->id)
-                ->where('payment_status', 'success')
-                ->where('watch_expired_date', '>=', Carbon::now());
-        })
+        $films = $this->film
+            ->with(['gallery', 'transaction:film_id,watch_expired_date'])
+            ->withCount('filmView')
+            ->whereHas('transaction', function ($query) {
+                $query->where('user_id', auth()->user()->id)
+                    ->where('payment_status', 'success')
+                    ->where('watch_expired_date', '>=', Carbon::now());
+            })
             ->get();
-//        ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    
+        // Tambahkan prefix path ke setiap gambar di galeri
+        $films->transform(function ($film) {
+            $film->gallery->transform(function ($gallery) {
+                $gallery->images = url('storage/' . $gallery->images);
+                return $gallery;
+            });
+    
+            return $film;
+        });
+    
+        return $films;
     }
 
     public function filmWatched(PaginateDto $dto)
     {
-
-//        dd(auth()->user()->id);
-        return $this->film
-            ->with(['gallery','transaction:film_id,watch_expired_date'])
+        $films = $this->film
+            ->with(['gallery', 'transaction:film_id,watch_expired_date'])
+            ->withCount('filmView')
             ->whereHas('transaction', function ($query) {
                 $query->where('user_id', auth()->user()->id)
                     ->where('payment_status', 'success')
                     ->where('watch_expired_date', '<=', Carbon::now());
             })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    
+        // Tambahkan prefix path ke setiap gambar di galeri
+        $films->getCollection()->transform(function ($film) {
+            $film->gallery->transform(function ($gallery) {
+                $gallery->images = url('storage/' . $gallery->images);
+                return $gallery;
+            });
+    
+            return $film;
+        });
+    
+        return $films;
     }
+    
 
 
     public function searchFilm(SearchFilmDto $dto): object
     {
         $search = $this->film->search($dto->search)->query(function ($query) {
-            $query->with(['gallery', 'filmGenre:name']);
+            $query->with(['gallery', 'filmGenre:name'])->withCount('filmView');
         });
+        
+        //original without film_view_count
+        //     $search = $this->film->search($dto->search)->query(function ($query) {
+        //     $query->with(['gallery', 'filmGenre:name']);
+        // });
+        
         
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->new) {
