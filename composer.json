@@ -2,7 +2,7 @@
     "name": "sinasmov/backend",
     "type": "project",
     "version": "1.1.6",
-    "description": "SineasMov System!.",
+    "description": "SineasMov System.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
