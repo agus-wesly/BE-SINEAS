@@ -148,23 +148,26 @@ class FilmRepository implements IFilmRepository
                 'filmGenre:name',
                 'filmSelling'
             ])
+            ->withCount('filmView') // Tambahkan ini
             ->whereHas('filmSelling', function ($query) {
                 $query->where('status', 'active');
             })
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
-
-            //tambahkan path gambar
-            $films->getCollection()->transform(function ($film) {
-                $film->gallery->transform(function ($gallery) {
-                    $gallery->images = url('storage/' . $gallery->images);
-                    return $gallery;
-                });
-                return $film;
+    
+        //tambahkan path gambar
+        $films->getCollection()->transform(function ($film) {
+            $film->gallery->transform(function ($gallery) {
+                $gallery->images = url('storage/' . $gallery->images);
+                return $gallery;
             });
-
-            return $films;
+            return $film;
+        });
+    
+        return $films;
     }
+
+    
     public function FilmComingsoon($request)
     {
         $film = $this->film
@@ -309,12 +312,24 @@ class FilmRepository implements IFilmRepository
 
     public function getListWhislistFilm(PaginateDto $dto)
     {
-        return $this->film
+        $films = $this->film
             ->with('gallery', 'filmGenre')
             ->whereHas('wishlist', function ($query) {
                 $query->where('user_id', auth()->id());
             })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
+    
+        //tambahkan path gambar
+        $films->getCollection()->transform(function ($film) {
+            $film->gallery->transform(function ($gallery) {
+                $gallery->images = url('storage/' . $gallery->images);
+                return $gallery;
+            });
+            return $film;
+        });
+    
+        return $films;
     }
+    
 
 }
