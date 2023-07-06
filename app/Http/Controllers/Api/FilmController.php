@@ -61,7 +61,7 @@ class FilmController extends Controller
             return $this->success('detail film', $this->filmService->getFilmBySlug($slug, $userId));
         } catch (\Exception $e) {
             report($e);
-            return $this->error('film not found', 400);
+            return $this->error('film not found', 404);
         }
     }
 
@@ -71,7 +71,7 @@ class FilmController extends Controller
             return $this->success('film related', $this->filmService->getRelatedFilm($request->all()));
         } catch (\Exception $e) {
             report($e);
-            return $this->error('film not found', 400);
+            return $this->error('film not found', 404);
         }
     }
 
@@ -81,7 +81,7 @@ class FilmController extends Controller
             return $this->success('list film being Watched', $this->filmService->getFilmBeingWatched($request->all()));
         } catch (\Exception $e) {
             report($e);
-            return $this->error($e->getMessage(), 400);
+            return $this->error($e->getMessage(), 404);
         }
     }
 
@@ -91,7 +91,7 @@ class FilmController extends Controller
             return $this->success('list film Watched', $this->filmService->getFilmWatched($request->all()));
         } catch (\Exception $e) {
             report($e);
-            return $this->error($e->getMessage(), 400);
+            return $this->error($e->getMessage(), 404);
         }
     }
 
@@ -106,7 +106,7 @@ class FilmController extends Controller
           $whistlist =  $this->filmService->whislistFilm($filmId);
         } catch (\Exception $e) {
             report($e);
-            return $this->error('film not found', 400);
+            return $this->error('film not found', 404);
         }
         return $this->success('list film by wishlist', $whistlist);
     }

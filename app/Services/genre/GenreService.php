@@ -6,7 +6,7 @@ use App\Repository\Genre\IGenreRepository;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class GenreService implements \App\services\genre\IGenreService
+class GenreService implements \App\Services\Genre\IGenreService
 {
     private IGenreRepository $genreRepo;
 
