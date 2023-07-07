@@ -247,10 +247,10 @@ class FilmRepository implements IFilmRepository
                     ->where('payment_status', 'success')
                     ->where('watch_expired_date', '>=', Carbon::now());
             })
-            ->get();
+            ->paginate($dto->perPage ?? 10, 'page', $dto->page ?? 1);
     
         // Tambahkan prefix path ke setiap gambar di galeri
-        $films->transform(function ($film) {
+        $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
                 $gallery->images = url('storage/' . $gallery->images);
                 return $gallery;
@@ -261,7 +261,7 @@ class FilmRepository implements IFilmRepository
     
         return $films;
     }
-
+    
     public function filmWatched(PaginateDto $dto)
     {
         $films = $this->film
