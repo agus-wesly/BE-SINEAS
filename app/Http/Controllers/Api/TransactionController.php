@@ -47,14 +47,6 @@ class TransactionController extends Controller
         $film = json_encode($film);
         $film = json_decode($film);
 
-        //search data duration sewa film 
-        $idFilmSelling = $film->film_selling_id;
-        //find filmSelling by id
-        $filmSelling = FilmSelling::where('id', $idFilmSelling)->first();
-        $filmSellingPriceId = $filmSelling->film_selling_price_id;
-        //find filmSellingPrice by id filmSelling
-        $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
-        
 
         $data['user_id'] = auth()->user()->id;
         $data['film_id'] = $film->id;
@@ -71,8 +63,6 @@ class TransactionController extends Controller
             'transaction_details' => array(
                 'order_id' => $transaction->id,
                 'gross_amount' => $data['subtotal'],
-                'film_id' => $film->id,
-                'durationDay' => $getDataDuration->duration,
             ),
             'customer_details' => array(
                 'first_name' => $transaction->user->name,
@@ -93,16 +83,27 @@ class TransactionController extends Controller
        $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
        if ($hashed === $request->signature_key) {
          if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
+
+            $film = Transaction::where('id', $request->order_id)->first();
+             //search data duration sewa film 
+            $idFilmSelling = $film->film_selling_id;
+            //find filmSelling by id
+            $filmSelling = FilmSelling::where('id', $idFilmSelling)->first();
+            $filmSellingPriceId = $filmSelling->film_selling_price_id;
+            //find filmSellingPrice by id filmSelling
+            $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
+
              Transaction::find($request->order_id)->update([
                 'payment_status' => 'success',
                  'payment_method' => $request->payment_type,
-                 'watch_expired_date' => Carbon::now()->addDays($request->durationDay)
+                 'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration)
             ]);
+
              //create film view
              $data = [
                 'user_id' => auth()->user()->id,
-                'film_id' => $request->film_id,
-                'transaction_id' => $request->order_id,
+                'film_id' => $film->film_id,
+                'transaction_id' => $film->id,
             ];
             FilmView::create($data);
          }
