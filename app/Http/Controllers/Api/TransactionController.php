@@ -11,6 +11,8 @@ use App\Traits\ResponseAPI;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\FilmSellingPrice;
+use App\Models\FilmSelling;
 
 class TransactionController extends Controller
 {
@@ -44,6 +46,15 @@ class TransactionController extends Controller
         $film = json_encode($film);
         $film = json_decode($film);
 
+        //search data duration sewa film 
+        $idFilmSelling = $film->film_selling_id;
+        //find filmSelling by id
+        $filmSelling = FilmSelling::where('id', $idFilmSelling)->first();
+        $filmSellingPriceId = $filmSelling->film_selling_price_id;
+        //find filmSellingPrice by id filmSelling
+        $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
+        
+
         $data['user_id'] = auth()->user()->id;
         $data['film_id'] = $film->id;
         $data['film_selling_id'] = $film->film_selling_id;
@@ -59,6 +70,7 @@ class TransactionController extends Controller
             'transaction_details' => array(
                 'order_id' => $transaction->id,
                 'gross_amount' => $data['subtotal'],
+                'durationDay' => $getDataDuration->duration,
             ),
             'customer_details' => array(
                 'first_name' => $transaction->user->name,
@@ -82,8 +94,7 @@ class TransactionController extends Controller
              Transaction::find($request->order_id)->update([
                 'payment_status' => 'success',
                  'payment_method' => $request->payment_type,
-                 'watch_expired_date' => Carbon::now()->addDays(7)
-
+                 'watch_expired_date' => Carbon::now()->addDays($request->durationDay)
             ]);
          }
 
