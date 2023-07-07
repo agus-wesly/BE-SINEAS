@@ -1,47 +1,109 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BACKOFFICE - SINEASMOV</title>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <style>
+        #error-message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            text-align: center;
+        }
+
+        #error-message p {
+            margin: 0;
+        }
+
+        @keyframes countdown {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        #timer {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f44336;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            margin-left: 5px;
+            animation-name: countdown;
+            animation-duration: 10s;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+    </style>
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="border-top-wide border-primary d-flex flex-column">
+    <div class="row no-gutters">
+        <div class="col-md-8  d-none d-md-block">
+            <div class="d-flex justify-content-center align-items-center"
+                style="height: 100vh; background-color:#E5E5E5">
+                <img src="{{ asset('img/background-sineasmov.png') }}" alt="">
+            </div>
         </div>
+        <div class="col-md-4 col-sm-12" style="background-color:">
+            <div class="d-flex align-items-center" style="height: 100vh;">
+                <div class="mx-4 mx-md-5" style="width: 100%">
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
+                    <div class="col mb-2">
+                        <img src="{{ asset('img/sineasmov-logo.png') }}" alt="" style="width: 200px">
+                    </div>
+                    <div>
+                        <h1 class="mb-1" style="font-size: 30px">Selamat Datang</h1>
+                        <p class="fs-3">Silahkan masuk menggunakan akun admin.</p>
+                    </div>
+                    <form action="{{ route('login') }}" method="POST" autocomplete="off">
+                        @csrf
+                        <div class="col mt-4">
+                            <div class="form-group mb-3">
+                                <div class="label mb-1">Email</div>
+                                <input name="email" type="email" class="form-control"
+                                    placeholder="Masukkan email" style="border-radius: 12px">
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="label mb-1">Password</div>
+                                <input name="password" type="password" class="form-control"
+                                    placeholder="Masukkan password" style="border-radius: 12px">
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            </div>
+                            <div class="form-group my-3">
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="remember-me">
+                                        <label class="form-check-label" for="remember-me">Remember me</label>
+                                    </div>
+                                    <a href="#" class="forgot-password-link" style="color: #CE1D13">Forgot password?</a>
+                                </div>
+                            </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            <div class="btn-container">
+                                <button type="submit" class="btn-gradient-primary">Masuk</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+</body>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
