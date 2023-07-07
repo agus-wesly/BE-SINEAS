@@ -292,43 +292,38 @@ class FilmRepository implements IFilmRepository
     public function searchFilm(SearchFilmDto $dto): object
     {
         $search = $this->film->search($dto->search)->query(function ($query) {
-            $query->with(['gallery', 'filmGenre:name'])->withCount('filmView');
+            $query->with(['gallery', 'filmGenre:name'])->withCount('filmView')->whereHas('filmSelling', function ($query) {
+                $query->where('status', 'active');
+            });
         });
-        
-        //original without film_view_count
-        //     $search = $this->film->search($dto->search)->query(function ($query) {
-        //     $query->with(['gallery', 'filmGenre:name']);
-        // });
-        
-        
+    
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->new) {
                 return;
             }
             $search->orderBy('created_at', 'desc');
         });
-        
+    
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->sort) {
                 return;
             }
             $search->orderBy('title', 'desc');
         });
-        
+    
         $films = $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
-        
+    
         $films->getCollection()->transform(function ($film) {
-            // Tambahkan prefix path ke setiap gambar di galeri
             $film->gallery->transform(function ($gallery) {
                 $gallery->images = url('storage/' . $gallery->images);
                 return $gallery;
             });
-        
             return $film;
         });
-        
+    
         return $films;
     }
+    
 
     public function whislistFilm($film)
     {
