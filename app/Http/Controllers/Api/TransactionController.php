@@ -80,53 +80,63 @@ class TransactionController extends Controller
 
     public function callbackMidtrans(Request $request): void
     {
-       $serverKey = config('midtrans.server_key');
-       $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-
-       $film = Transaction::where('id', $request->order_id)->first();
-       //search data duration sewa film 
-      $idFilmSelling = $film->film_selling_id;
-      //find filmSelling by id
-      $filmSelling = FilmSelling::where('id', $idFilmSelling)->first();
-      $filmSellingPriceId = $filmSelling->film_selling_price_id;
-      //find filmSellingPrice by id filmSelling
-      $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
-
-       if ($hashed === $request->signature_key) {
-         if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
-
-             Transaction::find($request->order_id)->update([
-                'payment_status' => 'success',
-                 'payment_method' => $request->payment_type,
-                 'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration)
-            ]);
-
-             //create film view
-             FilmView::Create([
-                'user_id' => $film->user_id,
-                'film_id' => $film->film_id,
-                'transaction_id' => $film->id,
+     try {
+        $serverKey = config('midtrans.server_key');
+        $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+ 
+        $film = Transaction::where('id', $request->order_id)->first();
+        //search data duration sewa film 
+       $idFilmSelling = $film->film_selling_id;
+       //find filmSelling by id
+       $filmSelling = FilmSelling::where('id', $idFilmSelling)->first();
+       $filmSellingPriceId = $filmSelling->film_selling_price_id;
+       //find filmSellingPrice by id filmSelling
+       $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
+ 
+        if ($hashed === $request->signature_key) {
+          if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
+ 
+              Transaction::find($request->order_id)->update([
+                 'payment_status' => 'success',
+                  'payment_method' => $request->payment_type,
+                  'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration)
              ]);
-         }
+ 
+              //create film view
+              FilmView::Create([
+                 'user_id' => $film->user_id,
+                 'film_id' => $film->film_id,
+                 'transaction_id' => $film->id,
+              ]);
+          }
+ 
+         
+ 
+          if ($request->transaction_status == 'cancel' ||
+            $request->transaction_status == 'deny' ||
+            $request->transaction_status == 'expire'){
+            Transaction::find($request->order_id)->update([
+                'payment_status' => $request->transaction_status,
+                'payment_method' => $request->payment_type,
+            ]);
+          }
+ 
+          if ($request->transaction_status == 'pending'){
+            Transaction::find($request->order_id)->update([
+                'payment_status' => $request->transaction_status,
+                'payment_method' => $request->payment_type,
+            ]);
+          }
+ 
+        }
 
-        
+        response()->json([
+            'status' => 'success',
+            'message' => 'callback success',
+        ], 200);
 
-         if ($request->transaction_status == 'cancel' ||
-           $request->transaction_status == 'deny' ||
-           $request->transaction_status == 'expire'){
-           Transaction::find($request->order_id)->update([
-               'payment_status' => $request->transaction_status,
-               'payment_method' => $request->payment_type,
-           ]);
-         }
-
-         if ($request->transaction_status == 'pending'){
-           Transaction::find($request->order_id)->update([
-               'payment_status' => $request->transaction_status,
-               'payment_method' => $request->payment_type,
-           ]);
-         }
-
-       }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
