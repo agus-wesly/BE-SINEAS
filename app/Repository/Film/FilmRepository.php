@@ -338,6 +338,7 @@ class FilmRepository implements IFilmRepository
     {
         $films = $this->film
             ->with('gallery', 'filmGenre')
+            ->withCount('filmView')
             ->whereHas('wishlist', function ($query) {
                 $query->where('user_id', auth()->id());
             })
