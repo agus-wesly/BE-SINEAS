@@ -98,15 +98,16 @@ class TransactionController extends Controller
                  'payment_method' => $request->payment_type,
                  'watch_expired_date' => Carbon::now()->addDays($request->durationDay)
             ]);
-         }
-
-         //create film view
-            $data = [
+             //create film view
+             $data = [
                 'user_id' => auth()->user()->id,
                 'film_id' => $request->film_id,
                 'transaction_id' => $request->order_id,
             ];
             FilmView::create($data);
+         }
+
+        
 
          if ($request->transaction_status == 'cancel' ||
            $request->transaction_status == 'deny' ||
