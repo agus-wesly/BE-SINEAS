@@ -23,7 +23,7 @@ use App\Http\Controllers\FilmController;
 |
 */
 
-Route::Redirect('/', '/dashboard');
+Route::Redirect('/', '/jangannakalyah');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
