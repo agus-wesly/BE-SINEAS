@@ -215,7 +215,7 @@ class FilmRepository implements IFilmRepository
            $film->load(['wishlist' => function ($query) use ($userId) {
                $query->where('user_id', $userId);
            }, 'transaction' => function ($query) use ($userId) {
-               $query->where('user_id', $userId);
+               $query->where('user_id', $userId)->latest()->first();
            }]);
         }
 

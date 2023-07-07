@@ -92,7 +92,6 @@ class TransactionController extends Controller
        $filmSellingPriceId = $filmSelling->film_selling_price_id;
        //find filmSellingPrice by id filmSelling
        $getDataDuration = FilmSellingPrice::where('id', $filmSellingPriceId)->first();
-       $minusOneDay = $getDataDuration->duration - 1;
  
         if ($hashed === $request->signature_key) {
           if ($request->transaction_status === 'capture' || $request->transaction_status === 'settlement') {
@@ -100,7 +99,7 @@ class TransactionController extends Controller
               Transaction::find($request->order_id)->update([
                  'payment_status' => 'success',
                   'payment_method' => $request->payment_type,
-                  'watch_expired_date' => Carbon::now()->addDays($minusOneDay)
+                  'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration)
              ]);
  
               //create film view
