@@ -22,23 +22,25 @@ class BannerReoisitory implements IBannerRepository
     public function getAll(string $status = null): object
     {
         $currentDate = Carbon::now();
-
+    
         if ($status) {
             return BannerResource::collection(
                 $this->banner->where('status', $status)
                     ->whereDate('expired_date', '>', $currentDate)
-                    ->orderByDesc('expired_date')
+                    ->orderBy('created_at', 'desc')
                     ->toBase()
                     ->get()
             );
         }
+        
         return BannerResource::collection(
             $this->banner
-                ->orderByDesc('expired_date')
+                ->orderBy('created_at', 'desc')
                 ->toBase()
                 ->get()
         );
     }
+    
 
     public function getById(int $id): Banner
     {
