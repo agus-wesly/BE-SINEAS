@@ -99,7 +99,8 @@ class TransactionController extends Controller
               Transaction::find($request->order_id)->update([
                  'payment_status' => 'success',
                   'payment_method' => $request->payment_type,
-                  'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration)
+                  'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration),
+                  'payment_date' => Carbon::now(),
              ]);
  
               //create film view
