@@ -56,6 +56,7 @@ class TransactionController extends Controller
         $data['title_film'] = $film->title;
         $data['total'] = $film->price;
         $data['subtotal'] = $film->price + $this->taxService->getTaxRate();
+        $data['payment_date'] = Carbon::now();
 
 
        $transaction = Transaction::create($data);
@@ -100,7 +101,7 @@ class TransactionController extends Controller
                  'payment_status' => 'success',
                   'payment_method' => $request->payment_type,
                   'watch_expired_date' => Carbon::now()->addDays($getDataDuration->duration),
-                  'payment_date' => Carbon::now(),
+                  'transaction_date' => Carbon::now(),
              ]);
  
               //create film view
