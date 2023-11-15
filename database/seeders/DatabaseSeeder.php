@@ -23,14 +23,14 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             UserSeeder::class,
             GenreTableSeeder::class,
-            // FilmTableSeeder::class,
-            // FilmSellingPriceSeeder::class,
-            // FilmSellingSeeder::class,
-            // TransactionSeeder::class,
-            // FilmViewSeeder::class,
-            // FilmImageSeeder::class,
-            // BannerSeeder::class,
-            // FilmGenreSeeder::class,
+            FilmTableSeeder::class,
+            FilmSellingPriceSeeder::class,
+            FilmSellingSeeder::class,
+            TransactionSeeder::class,
+            FilmViewSeeder::class,
+            FilmImageSeeder::class,
+            BannerSeeder::class,
+            FilmGenreSeeder::class,
         ]);
     }
 }
