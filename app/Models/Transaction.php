@@ -7,7 +7,6 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\QueryException;
 
 class Transaction extends Model
 {
@@ -32,39 +31,13 @@ class Transaction extends Model
     protected static function boot(): void
     {
         parent::boot();
-    
         static::creating(function ($model) {
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = $model->uid();
             }
-    
-            $maxAttempts = 10000;
-            $attempts = 0;
-    
-            do {
-                // Membuat kode baru dengan mengambil kode terakhir dan menambahkannya dengan 1
-                $lastCode = self::query()->max('code');
-                $model->code = $lastCode ? ++$lastCode : 'TRX-1';
-    
-                try {
-                    // Menyimpan model ke database
-                    $model->save();
-                    // Jika berhasil, keluar dari loop
-                    break;
-                } catch (QueryException $exception) {
-                    // Jika terjadi kesalahan karena duplicate entry, coba lagi
-                    if ($exception->getCode() == '23000') {
-                        $attempts++;
-                    } else {
-                        // Jika terjadi kesalahan lain, lemparkan kembali exception
-                        throw $exception;
-                    }
-                }
-            } while ($attempts < $maxAttempts);
-    
-            if ($attempts === $maxAttempts) {
-                throw new \Exception("Unable to generate a unique transaction code after $maxAttempts attempts.");
-            }
+            // $model->code = IdGenerator::generate(['table' => 'transactions','field'=>'code' , 'length' => 6, 'prefix' =>'TRX-']);
+            //prefix TRX-dateTime Minutes Seconds
+            $model->code = IdGenerator::generate(['table' => 'transactions', 'field' => 'code', 'length' => 6, 'prefix' => 'TRX-'.date('ymdHis')]);
         });
     }
 
