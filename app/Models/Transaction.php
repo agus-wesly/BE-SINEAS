@@ -35,7 +35,7 @@ class Transaction extends Model
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = $model->uid();
             }
-            $model->code = IdGenerator::generate(['table' => 'transactions','field'=>'code' , 'length' => 8, 'prefix' =>'TRX-']);
+            $model->code = IdGenerator::generate(['table' => 'transactions','field'=>'code' , 'length' => 10, 'prefix' =>'TRX-']);
         });
     }
 
