@@ -1,8 +1,6 @@
 <?php
-
-namespace App\Models;
-
-use App\Traits\Mutator\GenUid;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,24 +22,21 @@ class Transaction extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * Boot function from Laravel.
      */
     protected static function boot(): void
     {
         parent::boot();
+
         static::creating(function ($model) {
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = $model->uid();
             }
-            $model->code = IdGenerator::generate([
-                'table' => 'transactions',
-                'field' => 'code',
-                'length' => 6,
-                'prefix' => 'TRX-',
-                'maxAttempts' => 10000, // Menentukan batas maksimum
-            ]);
+
+            $maxAttempts = 10000;
+
+            $model->code = self::generateUniqueCode($maxAttempts);
         });
     }
 
@@ -66,7 +61,55 @@ class Transaction extends Model
     }
 
     /**
-     * gen uid
+     * Generate a unique transaction code.
+     *
+     * @param int $maxAttempts
+     * @return string
+     * @throws \Exception
+     */
+    protected static function generateUniqueCode($maxAttempts)
+    {
+        $prefix = 'TRX-';
+        $length = 6;
+
+        $code = IdGenerator::generate([
+            'table' => 'transactions',
+            'field' => 'code',
+            'length' => $length,
+            'prefix' => $prefix,
+        ]);
+
+        $attempts = 0;
+
+        while ($attempts < $maxAttempts) {
+            try {
+                // Check if the generated code already exists
+                self::query()->where('code', $code)->firstOrFail();
+                // If it exists, generate a new code
+                $code = IdGenerator::generate([
+                    'table' => 'transactions',
+                    'field' => 'code',
+                    'length' => $length,
+                    'prefix' => $prefix,
+                ]);
+            } catch (QueryException $exception) {
+                // If firstOrFail fails, it means the code is unique
+                break;
+            }
+
+            $attempts++;
+        }
+
+        if ($attempts === $maxAttempts) {
+            throw new \Exception("Unable to generate a unique transaction code after $maxAttempts attempts.");
+        }
+
+        return $code;
+    }
+
+    /**
+     * Generate a UID.
+     *
      * @param int $limit
      * @return false|string
      */
