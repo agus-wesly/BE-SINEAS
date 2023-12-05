@@ -3,7 +3,8 @@ name: Laravel Release
 on:
   push:
     branches:
-      - main
+      - production
+      - dev
 
 jobs:
   release_production:
