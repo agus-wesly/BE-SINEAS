@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'https://sineasmov.com'), 'https://www.sineasmov.com'],
+    'allowed_origins' => [env('FRONTEND_URL', 'https://sineasmov.com'), 'https://*.sineasmov.com'],
 
     'allowed_origins_patterns' => [],
 
