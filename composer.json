@@ -2,7 +2,6 @@
     "name": "sinasmov/backend",
     "type": "project",
     "version": "1.1.11",
-    "version-dev": "1.1.11-dev",
     "description": "SineasMov System.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
