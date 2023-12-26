@@ -15,6 +15,7 @@
         "laravel/scout": "^10.0",
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.8",
+        "marvinlabs/laravel-discord-logger": "^1.4",
         "midtrans/midtrans-php": "^2.5"
     },
     "require-dev": {

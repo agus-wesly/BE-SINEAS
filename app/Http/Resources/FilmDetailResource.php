@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -46,6 +47,9 @@ class FilmDetailResource extends JsonResource
             }),
         ];
 
+        if ($this?->filmSelling?->is_free) {
+            $data['transaction'] = true;
+        }
         if ($data['transaction'] === true) {
             $data['url_film'] = $this?->url_film;
         }

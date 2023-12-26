@@ -43,27 +43,30 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        // $this->reportable(function (Throwable $e) {
+        //     Log::error($e->getMessage());
+        //     return Http::post('https://discord.com/api/webhooks/1083265175618060288/ma9qDB9dylwrw2I3gD9ZVc9HE3vReGoF-o6nZoHhb5zzEJBzspkr_ZJ3PHDHtDFJED1u', [
+        //         'content' => "@everyone informasi error server",
+        //         'embeds' => [
+        //             [
+        //                 'title' => "error di baris ".$e->getLine(),
+        //                 'description' => $e->getMessage(),
+        //                 'color' => '7506394',
+        //                 "fields" => [
+        //                     [
+        //                         "name" => "informasi lokasi detail error",
+        //                         "value" => $e->getFile()
+        //                     ]
+        //                 ],
+        //                 "footer" =>[
+        //                     "text" => "status code ". $e->getCode()
+        //                 ],
+        //             ],
+        //         ],
+        //     ]);
+        // });
+
         $this->reportable(function (Throwable $e) {
-            Log::error($e->getMessage());
-            return Http::post('https://discord.com/api/webhooks/1083265175618060288/ma9qDB9dylwrw2I3gD9ZVc9HE3vReGoF-o6nZoHhb5zzEJBzspkr_ZJ3PHDHtDFJED1u', [
-                'content' => "@everyone informasi error server",
-                'embeds' => [
-                    [
-                        'title' => "error di baris ".$e->getLine(),
-                        'description' => $e->getMessage(),
-                        'color' => '7506394',
-                        "fields" => [
-                            [
-                                "name" => "informasi lokasi detail error",
-                                "value" => $e->getFile()
-                            ]
-                        ],
-                        "footer" =>[
-                            "text" => "status code ". $e->getCode()
-                        ],
-                    ],
-                ],
-            ]);
         });
     }
 }
