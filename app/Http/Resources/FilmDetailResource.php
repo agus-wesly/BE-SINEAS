@@ -39,6 +39,7 @@ class FilmDetailResource extends JsonResource
             'actors' => $this?->whenLoaded('actors'),
             'filmGenre' =>$this?->whenLoaded('filmGenre'),
             'created_at' => $this?->created_at,
+            'is_free' => $this?->filmSelling?->is_free,
             'transaction' => $this?->whenLoaded('transaction', function (){
                 return $this->transaction->watch_expired_date >= now();
             }),
