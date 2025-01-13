@@ -37,7 +37,7 @@ class Transaction extends Model
             }
             // $model->code = IdGenerator::generate(['table' => 'transactions','field'=>'code' , 'length' => 6, 'prefix' =>'TRX-']);
             //prefix TRX-dateTime Minutes Seconds
-            $model->code = IdGenerator::generate(['table' => 'transactions', 'field' => 'code', 'length' => 6, 'prefix' => 'TRX-'.date('ymdHis')]);
+            // $model->code = IdGenerator::generate(['table' => 'transactions', 'field' => 'code', 'length' => 6, 'prefix' => 'TRX-'.date('ymdHis')]);
         });
     }
 

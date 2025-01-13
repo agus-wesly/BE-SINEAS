@@ -24,7 +24,7 @@ class TransactionFactory extends Factory
             'user_id' => \App\Models\User::all()->random()->id,
             'film_selling_id' => $film_selling->id,
             'film_id' => $film_selling->film->id,
-            'code' => $this->faker->uuid,
+            'code' => $this->faker->unique()->uuid(),
             'payment_status' => $this->faker->randomElement(['pending', 'success', 'failed']),
             'payment_method' => $this->faker->randomElement(['gopay', 'ovo', 'dana']),
             'payment_date' => $this->faker->date(),

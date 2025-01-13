@@ -127,10 +127,9 @@
                                </div>
                                <div class="row">
                                    <div class="form-group col">
-                                       <img src="{{Storage::url($film->gallery[0]->images)}}" id="tampilanGambarThumbnail">
-                                   </div>
-                                   <div class="form-group col">
-                                       <img src="{{Storage::url($film->gallery[1]->images)}}" id="tampilanGambarBackground">
+                                       @if(count($film->gallery) > 0)
+                                            <img src="{{$film->gallery[0]->images}}" id="tampilanGambarThumbnail">
+                                       @endif
                                    </div>
                                </div>
                                <div class="row">

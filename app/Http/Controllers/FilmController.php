@@ -29,6 +29,7 @@ class FilmController extends Controller
     {
         $films = $this->filmService->getAllFilm();
 
+
         return view('pages.film.index', compact('films'));
     }
 
@@ -65,7 +66,8 @@ class FilmController extends Controller
     public function edit(string $id)
     {
         $genres = Genre::pluck('name', 'id');
-       $film = $this->filmService->getFilmById($id);
+        $film = $this->filmService->getFilmById($id);
+        // dd(compact(['film', 'genres']));
         return view('pages.film.edit', compact(['film', 'genres']));
     }
 

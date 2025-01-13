@@ -21,7 +21,7 @@ class FilmGalleryFactory extends Factory
 
         return [
             'film_id' => $filmId,
-            'images' => fake()->imageUrl(),
+            'images' => "https://img.freepik.com/premium-photo/film-frame-mock-up-template-with-image-text-placeholder-movie-frames-pencil-drawn-sketch-illustration-background_568886-21385.jpg",
             'type' => fake()->randomElement(['thumbnail', 'background']),
         ];
     }

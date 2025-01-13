@@ -13,7 +13,8 @@ class FilmGenreSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\FilmGenre::factory()->count(10)->create();
+        \App\Models\FilmGenre::factory()->count(10)->create();
+        return;
 
         $data = [
             [
@@ -131,7 +132,7 @@ class FilmGenreSeeder extends Seeder
                 "image" => "-"
             ]
             ];
-        
+
 
         foreach ($data as $key => $value) {
             Genre::create($value);

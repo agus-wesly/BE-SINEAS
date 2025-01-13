@@ -119,6 +119,7 @@ class FilmService implements IFilmService
                 }, $data['actor']);
             }
             \DB::commit();
+            return true;
         } catch (\Exception $e) {
             report($e);
             \DB::rollBack();
