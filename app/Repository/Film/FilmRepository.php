@@ -127,15 +127,15 @@ class FilmRepository implements IFilmRepository
                 ->orderByDesc('film_view_count')
                 ->paginate($request->per_page?? 10, page: $request->page?? 1);
 
-    $films->getCollection()->transform(function ($film) {
-        //tambahkan path gambar
-        $film->gallery->transform(function ($gallery) {
-            $gallery->images = url('storage/' . $gallery->images);
-            return $gallery;
-        });
+    // $films->getCollection()->transform(function ($film) {
+    //     //tambahkan path gambar
+    //     // $film->gallery->transform(function ($gallery) {
+    //     //     // $gallery->images = url('storage/' . $gallery->images);
+    //     //     return $gallery;
+    //     // });
 
-        return $film;
-    });
+    //     return $film;
+    // });
 
  return $films;
     }
@@ -156,13 +156,13 @@ class FilmRepository implements IFilmRepository
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
 
         //tambahkan path gambar
-        $films->getCollection()->transform(function ($film) {
-            $film->gallery->transform(function ($gallery) {
-                $gallery->images = url('storage/' . $gallery->images);
-                return $gallery;
-            });
-            return $film;
-        });
+        // $films->getCollection()->transform(function ($film) {
+        //     $film->gallery->transform(function ($gallery) {
+        //         $gallery->images = url('storage/' . $gallery->images);
+        //         return $gallery;
+        //     });
+        //     return $film;
+        // });
 
         return $films;
     }
@@ -193,10 +193,10 @@ class FilmRepository implements IFilmRepository
 
         $films->getCollection()->transform(function ($film) {
         // Tambahkan prefix path ke setiap gambar di galeri
-        $film->gallery->transform(function ($gallery) {
-            $gallery->images = url('storage/') . '/' . $gallery->images;
-            return $gallery;
-        });
+        // $film->gallery->transform(function ($gallery) {
+        //     $gallery->images = url('storage/') . '/' . $gallery->images;
+        //     return $gallery;
+        // });
 
         return $film;
         });
@@ -250,14 +250,14 @@ class FilmRepository implements IFilmRepository
             ->paginate($dto->perPage ?? 10, 'page', $dto->page ?? 1);
 
         // Tambahkan prefix path ke setiap gambar di galeri
-        $films->getCollection()->transform(function ($film) {
-            $film->gallery->transform(function ($gallery) {
-                $gallery->images = url('storage/' . $gallery->images);
-                return $gallery;
-            });
+        // $films->getCollection()->transform(function ($film) {
+        //     $film->gallery->transform(function ($gallery) {
+        //         $gallery->images = url('storage/' . $gallery->images);
+        //         return $gallery;
+        //     });
 
-            return $film;
-        });
+        //     return $film;
+        // });
 
         return $films;
     }
@@ -275,14 +275,14 @@ class FilmRepository implements IFilmRepository
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
 
         // Tambahkan prefix path ke setiap gambar di galeri
-        $films->getCollection()->transform(function ($film) {
-            $film->gallery->transform(function ($gallery) {
-                $gallery->images = url('storage/' . $gallery->images);
-                return $gallery;
-            });
+        // $films->getCollection()->transform(function ($film) {
+        //     $film->gallery->transform(function ($gallery) {
+        //         $gallery->images = url('storage/' . $gallery->images);
+        //         return $gallery;
+        //     });
 
-            return $film;
-        });
+        //     return $film;
+        // });
 
         return $films;
     }
@@ -313,13 +313,13 @@ class FilmRepository implements IFilmRepository
 
         $films = $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
 
-        $films->getCollection()->transform(function ($film) {
-            $film->gallery->transform(function ($gallery) {
-                $gallery->images = url('storage/' . $gallery->images);
-                return $gallery;
-            });
-            return $film;
-        });
+        // $films->getCollection()->transform(function ($film) {
+        //     $film->gallery->transform(function ($gallery) {
+        //         $gallery->images = url('storage/' . $gallery->images);
+        //         return $gallery;
+        //     });
+        //     return $film;
+        // });
 
         return $films;
     }
@@ -345,13 +345,13 @@ class FilmRepository implements IFilmRepository
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
 
         //tambahkan path gambar
-        $films->getCollection()->transform(function ($film) {
-            $film->gallery->transform(function ($gallery) {
-                $gallery->images = url('storage/' . $gallery->images);
-                return $gallery;
-            });
-            return $film;
-        });
+        // $films->getCollection()->transform(function ($film) {
+        //     $film->gallery->transform(function ($gallery) {
+        //         $gallery->images = url('storage/' . $gallery->images);
+        //         return $gallery;
+        //     });
+        //     return $film;
+        // });
 
         return $films;
     }

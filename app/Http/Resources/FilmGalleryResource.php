@@ -15,7 +15,7 @@ class FilmGalleryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'images' => url('storage/' . $this?->images),
+            'images' => $this?->images,
             'type' => $this?->type,
         ];
     }
