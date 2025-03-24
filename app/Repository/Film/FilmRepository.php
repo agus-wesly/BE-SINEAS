@@ -117,13 +117,13 @@ class FilmRepository implements IFilmRepository
 
     public function FilmPopuler($request)
     {
-        
+
         $films = $this->film
                 ->with(['gallery', 'filmGenre', 'filmSelling'])
                 ->withCount('filmView')
-                ->whereHas('filmSelling', function ($query) {
-                    $query->where('status', 'active');
-                })
+                // ->whereHas('filmSelling', function ($query) {
+                //     $query->where('status', 'active');
+                // })
                 ->orderByDesc('film_view_count')
                 ->paginate($request->per_page?? 10, page: $request->page?? 1);
 
@@ -154,7 +154,7 @@ class FilmRepository implements IFilmRepository
             })
             ->orderByDesc('created_at')
             ->paginate($request->per_page?? 10, page: $request->page?? 1);
-    
+
         //tambahkan path gambar
         $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
@@ -163,11 +163,11 @@ class FilmRepository implements IFilmRepository
             });
             return $film;
         });
-    
+
         return $films;
     }
 
-    
+
     public function FilmComingsoon($request)
     {
         $film = $this->film
@@ -248,20 +248,20 @@ class FilmRepository implements IFilmRepository
                     ->where('watch_expired_date', '>=', Carbon::now());
             })
             ->paginate($dto->perPage ?? 10, 'page', $dto->page ?? 1);
-    
+
         // Tambahkan prefix path ke setiap gambar di galeri
         $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
                 $gallery->images = url('storage/' . $gallery->images);
                 return $gallery;
             });
-    
+
             return $film;
         });
-    
+
         return $films;
     }
-    
+
     public function filmWatched(PaginateDto $dto)
     {
         $films = $this->film
@@ -273,20 +273,20 @@ class FilmRepository implements IFilmRepository
                     ->where('watch_expired_date', '<=', Carbon::now());
             })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
-    
+
         // Tambahkan prefix path ke setiap gambar di galeri
         $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
                 $gallery->images = url('storage/' . $gallery->images);
                 return $gallery;
             });
-    
+
             return $film;
         });
-    
+
         return $films;
     }
-    
+
 
 
     public function searchFilm(SearchFilmDto $dto): object
@@ -296,23 +296,23 @@ class FilmRepository implements IFilmRepository
                 $query->where('status', 'active');
             });
         });
-    
+
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->new) {
                 return;
             }
             $search->orderBy('created_at', 'desc');
         });
-    
+
         $search = $search->tap(function (Builder $search) use ($dto) {
             if (!$dto->sort) {
                 return;
             }
             $search->orderBy('title', 'desc');
         });
-    
+
         $films = $search->paginate($dto->perPage?? 10, page: $dto->page?? 1);
-    
+
         $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
                 $gallery->images = url('storage/' . $gallery->images);
@@ -320,10 +320,10 @@ class FilmRepository implements IFilmRepository
             });
             return $film;
         });
-    
+
         return $films;
     }
-    
+
 
     public function whislistFilm($film)
     {
@@ -343,7 +343,7 @@ class FilmRepository implements IFilmRepository
                 $query->where('user_id', auth()->id());
             })
             ->paginate($dto->perPage?? 10, page: $dto->page?? 1);
-    
+
         //tambahkan path gambar
         $films->getCollection()->transform(function ($film) {
             $film->gallery->transform(function ($gallery) {
@@ -352,9 +352,9 @@ class FilmRepository implements IFilmRepository
             });
             return $film;
         });
-    
+
         return $films;
     }
-    
+
 
 }
