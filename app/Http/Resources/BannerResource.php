@@ -18,7 +18,7 @@ class BannerResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => empty($this->title) ? '-' : $this->title,
-            'image' => url('storage/' . $this->image),
+            'image' => $this->image,
             'expired_date' => $this->expired_date,
             'description' => empty($this->description) ? '-' : $this->description,
             'url_link' => empty($this->url_link) ? '-' : $this->url_link,

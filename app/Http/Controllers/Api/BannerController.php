@@ -20,7 +20,7 @@ class BannerController extends Controller
 
     public function index(): JsonResponse
     {
-        $banners = $this->bannerService->getAllBanner('1');
+        $banners = $this->bannerService->getAllBanner();
         return $this->success('list banners', $banners);
     }
 
