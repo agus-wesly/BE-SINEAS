@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 const options = { method: 'GET', headers: { accept: 'application/json', authorization: `Bearer ${TOKEN}` } };
 let currentPage = 1;
-let expected_movie = 250;
+let expected_movie = 1;
 const allData = [];
 // Fetch 500 movie
 // $table->id();
@@ -28,6 +28,8 @@ const allData = [];
             for (let i = 0; i < data.results.length; ++i) {
                 if (expected_movie <= 0) throw new Error('Already full');
                 const result = data.results[i];
+                console.log(result)
+                return
                 // Fetch video
                 const filmUrl = await fetchVideo(result.id);
 
@@ -38,7 +40,9 @@ const allData = [];
                 // 'url_film' => "4e31983f-20f4-44dc-954a-edb1ce9b50bd",
                 // 'url_trailer' => "4e31983f-20f4-44dc-954a-edb1ce9b50bd",
                 // 'slug' => fake()->slug(),
+
                 const currentData = {};
+
                 currentData.id = result.id;
                 currentData.title = result.title;
                 currentData.slug = result.title;
