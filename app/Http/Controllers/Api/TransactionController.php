@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Film;
+use Faker;
 use App\Models\Transaction;
 use App\Services\Film\IFilmService;
 use App\Services\Tax\ITaxService;
@@ -35,10 +36,8 @@ class TransactionController extends Controller
     {
         // return $this->success('snap token', "foo");
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default).
-        // Set to true for Production Environment (accept real transaction).
-        // \Midtrans\Config::$isProduction = config('midtrans.is_production');
+        \Midtrans\Config::$serverKey = "SB-Mid-server-FPqTzES1lNlP2HNc4K_r1Dax";
+        \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
@@ -54,6 +53,7 @@ class TransactionController extends Controller
 
 
         $data['user_id'] = auth()->user()->id;
+        $data['code'] = Faker\Factory::create()->uuid();
         $data['film_id'] = $film->id;
         $data['film_selling_id'] = $film->film_selling_id;
         $data['tax'] = 0;
@@ -61,6 +61,7 @@ class TransactionController extends Controller
         $data['total'] = $film->price;
         $data['subtotal'] = $film->price + $this->taxService->getTaxRate();
         $data['payment_date'] = Carbon::now();
+        $data['payment_status'] = "success";
 
 
         try {
@@ -95,6 +96,7 @@ class TransactionController extends Controller
 
     public function callbackMidtrans(Request $request): void
     {
+        error_log("MIDTRANS CALLBACK");
         try {
             $serverKey = config('midtrans.server_key');
             $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
