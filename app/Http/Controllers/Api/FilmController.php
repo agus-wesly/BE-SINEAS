@@ -9,6 +9,7 @@ use App\Traits\ResponseAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Tax;
+use RuntimeException;
 
 class FilmController extends Controller
 {
@@ -28,13 +29,20 @@ class FilmController extends Controller
 
     public function getTax()
     {
-      
+
         $tax = Tax::orderBy('created_at', 'desc')->first();
         return $this->success('tax price', $tax);
     }
 
     public function filmPopuler(Request $request): JsonResponse
     {
+
+        $errorIsHapening = false;
+        // Simulate an error in one service
+        if($errorIsHapening) {
+            posix_kill(posix_getpid(), SIGTERM);
+        }
+
         return $this->success('list film populer', $this->filmService->getFilmPopuler($request));
     }
 

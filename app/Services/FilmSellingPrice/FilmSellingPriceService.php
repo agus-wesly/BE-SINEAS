@@ -2,6 +2,7 @@
 
 namespace App\Services\FilmSellingPrice;
 
+use App\Models\FilmSelling;
 use App\Repository\FilmSellingPrice\IFilmSellingPriceRepository;
 use Illuminate\Validation\ValidationException;
 
@@ -46,9 +47,15 @@ class FilmSellingPriceService implements IFilmSellingPriceService
     {
         try {
             $filmSellingPrice = $this->filmSellingPriceRepo->getById($id);
+            // need to get the film selling from here
+            $filmSelling = FilmSelling::findOrFail($data['id']);
+            $filmSelling->update(['is_free' => $data['is_free']]);
             $this->filmSellingPriceRepo->update($data, $filmSellingPrice);
+
         } catch (\Exception $e) {
             report($e);
+            $exception = $e->getMessage();
+            error_log($exception);
             throw ValidationException::withMessages(['message' => 'Film Selling Price not updated']);
         }
     }
