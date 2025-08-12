@@ -68,7 +68,7 @@ class FilmSellingPriceController extends Controller
     public function update(FilmSellingPriceRequest $request, string $id): RedirectResponse
     {
         $this->filmSellingPriceService->editFilmSellingPrice($request->all(), $id);
-        return redirect()->route('film-selling-price.index');
+        return redirect()->route('film-selling.index');
     }
 
     /**

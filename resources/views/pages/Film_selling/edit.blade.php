@@ -6,8 +6,6 @@
         {{ trans('global.sineashub') }}
     </div>
 
-    {{$filmSelling}}
-
     <div class="card-body">
         <form method="POST" action="{{ route("film-selling-price.update", [$filmSelling->film_selling_price_id]) }}" enctype="multipart/form-data">
             @method('PUT')

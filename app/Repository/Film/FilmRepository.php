@@ -30,13 +30,14 @@ class FilmRepository implements IFilmRepository
 
     public function getFilmById(int $id)
     {
-        return $this->film->with([
+        $film = $this->film->with([
             'information',
             'actors',
             'filmSelling',
             'filmGenre',
             'gallery'
         ])->findOrFail($id);
+        return $film;
     }
 
     public function createFilm(array $data)

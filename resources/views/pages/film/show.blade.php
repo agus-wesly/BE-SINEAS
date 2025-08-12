@@ -126,15 +126,15 @@
                             <tr>
                                 <td>
                                     @if(isset($film?->gallery[0]))
-                                        <a href="{{ Storage::url($film->gallery[0]->images) }}">
-                                            <img src="{{ Storage::url($film->gallery[0]->images) }}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        <a href="{{$film->gallery[0]->images}}">
+                                            <img src="{{$film->gallery[0]->images}}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
                                         </a>
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($film?->gallery[1])))
-                                        <a href="{{ Storage::url($film->gallery[1]->images) }}">
-                                            <img src="{{ Storage::url($film->gallery[1]->images) }}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        <a href="{{$film->gallery[1]->images}}">
+                                            <img src="{{$film->gallery[1]->images}}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
                                         </a>
                                     @endif
 

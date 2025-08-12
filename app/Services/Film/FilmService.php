@@ -42,6 +42,7 @@ class FilmService implements IFilmService
         $data['images']['name'] = [];
         $data['images']['type'] = [];
 
+
         if ($request->hasFile('thumbnail')) {
             $data['images']['name'][] = $request->file('thumbnail')->store(
                 'assert/film/thumbnail',
@@ -86,7 +87,7 @@ class FilmService implements IFilmService
             report($e);
             \DB::rollBack();
             throw ValidationException::withMessages([
-                'error' => 'server error'
+                'error' => $e
             ]);
         }
     }

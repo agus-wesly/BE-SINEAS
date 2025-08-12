@@ -61,7 +61,7 @@ class FilmSellingService implements IFilmSellingService
             $this->sellingRepo->delete($filmSelling);
         } catch (\Exception $e) {
             report($e);
-            throw ValidationException::withMessages(['message' => 'Film Selling not deleted']);
+            throw ValidationException::withMessages(['message' => "Cannot delete film selling"]);
         }
     }
 }
