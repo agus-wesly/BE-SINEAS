@@ -126,15 +126,25 @@
                             <tr>
                                 <td>
                                     @if(isset($film?->gallery[0]))
-                                        <a href="{{$film->gallery[0]->images}}">
-                                            <img src="{{$film->gallery[0]->images}}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        <a href="{{ Str::startsWith($film->gallery[0]->images, ['http://', 'https://'])
+                                                        ? $film->gallery[0]->images
+                                                        : asset('storage/' . $film->gallery[0]->images) }}">
+                                            <img src="{{ Str::startsWith($film->gallery[0]->images, ['http://', 'https://'])
+                                                            ? $film->gallery[0]->images
+                                                            : asset('storage/' . $film->gallery[0]->images) }}"
+                                                 class="img-thumbnail rounded mx-auto d-block" width="250vh">
                                         </a>
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($film?->gallery[1])))
-                                        <a href="{{$film->gallery[1]->images}}">
-                                            <img src="{{$film->gallery[1]->images}}" class="img-thumbnail rounded mx-auto d-block" width="250vh">
+                                        <a href="{{ Str::startsWith($film->gallery[0]->images, ['http://', 'https://'])
+                                                        ? $film->gallery[0]->images
+                                                        : asset('storage/' . $film->gallery[0]->images) }}">
+                                            <img src="{{ Str::startsWith($film->gallery[0]->images, ['http://', 'https://'])
+                                                            ? $film->gallery[0]->images
+                                                            : asset('storage/' . $film->gallery[0]->images) }}"
+                                                 class="img-thumbnail rounded mx-auto d-block" width="250vh">
                                         </a>
                                     @endif
 
