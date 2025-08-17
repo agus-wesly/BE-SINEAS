@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Http\Requests\FilmRequest;
 use App\Models\Genre;
 use App\Services\Film\IFilmService;
@@ -47,6 +48,9 @@ class FilmController extends Controller
      */
     public function store(FilmRequest $request): RedirectResponse
     {
+        $request->merge([
+            'date' => Carbon::now()->format('Y-m-d'), // 2025-08-17
+        ]);
         $this->filmService->addFilm($request);
         return redirect()->route('movie.index');
     }

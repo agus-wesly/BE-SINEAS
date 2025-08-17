@@ -31,7 +31,7 @@ class FilmRequest extends FormRequest
             'thumbnail' => 'required|image',
             'background' => 'required|image',
             'duration' => 'required|string',
-            'date' => 'required|date',
+            'date' => 'date',
             'url_trailer' => 'required|string',
             'url_film' => 'required|string',
             'information' => 'required|array',

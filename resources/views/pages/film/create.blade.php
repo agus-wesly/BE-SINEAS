@@ -61,7 +61,14 @@
                                           </div>
                                       @endif
                                   </div>
-                                  <div class="form-group col-2">
+                                   <input type="hidden"
+                                         value="10-10-2010"
+                                         class="form-control {{ $errors->has('date') ? 'is-invalid' : '' }}"
+                                         id="date"
+                                         name="date"
+                                         aria-describedby="durationHelp"
+                                  >
+                                  <!-- <div class="form-group col-2">
                                       <label for="date">{{trans('cruds.film.fields.film_date')}}</label>
                                       <input type="date"
                                              value="{{ old('date', '') }}"
@@ -76,7 +83,7 @@
                                               {{ $errors->first('duration') }}
                                           </div>
                                       @endif
-                                  </div>
+                                  </div> -->
                               </div>
                                <div class="row">
                                   <div class="form-group col-6">
