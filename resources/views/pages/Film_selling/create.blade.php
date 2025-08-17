@@ -62,16 +62,28 @@
                                    @endif
                                </div>
                                <div class="form-group col">
-                                   <label for="film_selling_price_id">{{trans('cruds.filmSelling.fields.film_selling_price')}}</label>
-                                   <select class="form-control" name="film_selling_price_id" id="film_selling_price_id" required>
+                                   <!-- TODO : Change to be just using text input -->
+
+                                   <label for="price">Price</label>
+                                   <input type="text"
+                                          value="{{ old('name', '') }}"
+                                          class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}"
+                                          id="price"
+                                          name="price"
+                                          aria-describedby="nameHelp"
+                                          placeholder="Masukan Harga"
+                                          required
+                                   >
+                                   <!-- <label for="film_selling_price_id">{{trans('cruds.filmSelling.fields.film_selling_price')}}</label> -->
+                                   <!-- <select class="form-control" name="film_selling_price_id" id="film_selling_price_id" required>
                                        <option>Pilih</option>
                                        @foreach($filmSellingPrices as $filmSellingPrice)
                                            <option value="{{ $filmSellingPrice?->id }}" @selected(old('film_selling_price_id', '') === (string) $filmSellingPrice?->id)>{{ $filmSellingPrice?->name }}</option>
                                        @endforeach
-                                   </select>
-                                   @if($errors->has('film_selling_price_id'))
+                                   </select> -->
+                                   @if($errors->has('price'))
                                        <div class="invalid-feedback">
-                                           {{ $errors->first('film_selling_price_id') }}
+                                           {{ $errors->first('price') }}
                                        </div>
                                    @endif
                                </div>

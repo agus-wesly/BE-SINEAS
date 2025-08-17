@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+use App\Models\FilmSellingPrice;
+
 class FilmSellingController extends Controller
 {
     private IFilmSellingService $filmSellingService;
@@ -52,8 +54,20 @@ class FilmSellingController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        try {
+        $new_film_selling = FilmSellingPrice::create([
+            "price" => $request->price,
+            "name" => "temp",
+            "duration" => 99999,
+        ]);
+        $request->merge([
+            'film_selling_price_id' => $new_film_selling->id,
+        ]);
         $this->filmSellingService->addFilmSelling($request->all());
         return redirect()->route('film-selling.index');
+        } catch (\Throwable $th) {
+            error_log($th->getMessage());
+        }
     }
 
     /**
